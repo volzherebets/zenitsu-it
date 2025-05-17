@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Кошик | TechShop</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="logo">
+        <img src="/images/logo.png" alt="TechShop" class="logo-img">
+        <span class="logo-text">TechShop</span>
+      </div>
+      
+      <div class="user-actions">
+        <a href="/" class="back-to-shop">
+          <i class="fas fa-arrow-left"></i> Назад до магазину
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      <h1 class="cart-title">Ваш кошик</h1>
+      
+      <div id="cart-items">
+        <!-- Товари в кошику -->
+      </div>
+      
+      <div class="cart-summary">
+        <div class="summary-row">
+          <span>Всього товарів:</span>
+          <span id="total-count">0</span>
+        </div>
+        <div class="summary-row">
+          <span>Сума замовлення:</span>
+          <span id="total-price">0.00 грн</span>
+        </div>
+        <button id="checkout-btn" class="checkout-btn">Оформити замовлення</button>
+      </div>
+    </div>
+  </main>
+
+  <div id="notification" class="notification"></div>
+
+  <script src="/script-cart.js"></script>
+</body>
+</html>

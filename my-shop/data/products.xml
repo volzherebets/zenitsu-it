@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<yml_catalog>
+  <shop>
+    <categories>
+      <category id="1">Електроніка</category>
+      <category id="2">Одяг</category>
+    </categories>
+    <offers>
+      <offer id="1" available="true">
+        <name>Смартфон</name>
+        <price>15999</price>
+        <categoryId>1</categoryId>
+        <picture>/images/phone.jpg</picture>
+        <description>Потужний смартфон з гарною камерою</description>
+      </offer>
+      <offer id="2" available="true">
+        <name>Футболка</name>
+        <price>399</price>
+        <categoryId>2</categoryId>
+        <picture>/images/shirt.jpg</picture>
+      </offer>
+    </offers>
+  </shop>
+</yml_catalog>

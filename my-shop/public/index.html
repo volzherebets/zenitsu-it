@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechShop - Інтернет магазин</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <!-- Шапка з лого та пошуком -->
+  <header class="header">
+    <div class="container">
+      <div class="logo">
+        <img src="/images/logo.png" alt="TechShop" class="logo-img">
+        <span class="logo-text">TechShop</span>
+      </div>
+      
+      <div class="search">
+        <input type="text" placeholder="Пошук товарів..." id="search-input">
+        <button id="search-btn"><i class="fas fa-search"></i></button>
+      </div>
+      
+      <div class="user-actions">
+        <a href="#" class="wishlist"><i class="far fa-heart"></i></a>
+        <a href="/cart" class="cart">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count" id="cart-count">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Навігація з випадаючими категоріями -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="categories-dropdown">
+        <button class="dropdown-btn">
+          <i class="fas fa-bars"></i> Категорії
+        </button>
+        <div class="dropdown-content" id="categories-dropdown">
+          <!-- Категорії будуть тут -->
+        </div>
+      </div>
+      
+      <ul class="nav-links">
+        <li><a href="/">Головна</a></li>
+        <li><a href="#">Новинки</a></li>
+        <li><a href="#">Акції</a></li>
+        <li><a href="#">Про нас</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Основний вміст -->
+  <main class="main">
+    <div class="container">
+      <div class="products-grid" id="products">
+        <!-- Товари будуть тут -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Підвал -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-section">
+        <h3>Контакти</h3>
+        <p>+380 12 345 6789</p>
+        <p>info@techshop.ua</p>
+      </div>
+      <div class="footer-section">
+        <h3>Графік роботи</h3>
+        <p>Пн-Пт: 9:00-18:00</p>
+        <p>Сб-Нд: 10:00-15:00</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Сповіщення -->
+  <div id="notification" class="notification"></div>
+
+  <script src="/script.js"></script>
+</body>
+</html>
