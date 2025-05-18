@@ -1,85 +1,88 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TEST IT - Інтернет магазин</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEST IT - Інтернет магазин</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <!-- Шапка з лого та пошуком -->
-  <header class="header">
-    <div class="container">
-      <div class="logo">
-        <img src="/images/logo.png" alt="TEST IT" class="logo-img">
-        <span class="logo-text">TEST IT</span>
-      </div>
-      
-      <div class="search">
-        <input type="text" placeholder="Пошук товарів..." id="search-input">
-        <button id="search-btn"><i class="fas fa-search"></i></button>
-      </div>
-      
-      <div class="user-actions">
-        <a href="#" class="wishlist"><i class="far fa-heart"></i></a>
-        <a href="/cart" class="cart">
-          <i class="fas fa-shopping-cart"></i>
-          <span class="cart-count" id="cart-count">0</span>
-        </a>
-      </div>
-    </div>
-  </header>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="/images/logo.png" alt="TEST IT" class="logo-img">
+                <span class="logo-text">TEST IT</span>
+            </div>
 
-  <!-- Навігація з випадаючими категоріями -->
-  <nav class="navbar">
-    <div class="container">
-      <div class="categories-dropdown">
-        <button class="dropdown-btn">
-          <i class="fas fa-bars"></i> Категорії
-        </button>
-        <div class="dropdown-content" id="categories-dropdown">
-          <!-- Категорії будуть тут -->
+            <div class="search">
+                <input type="text" placeholder="Пошук товарів..." id="search-input">
+                <button id="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+
+            <div class="user-actions">
+                <a href="#" class="wishlist"><i class="far fa-heart"></i></a>
+                <a href="/cart" class="cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </a>
+            </div>
         </div>
-      </div>
-      
-      <ul class="nav-links">
-        <li><a href="/">Головна</a></li>
-        <li><a href="#">Контакти</a></li>
-        <li><a href="#">Знайти нас на карті</a></li>
-        <li><a href="#">Гарантія</a></li>
-      </ul>
-    </div>
-  </nav>
+    </header>
 
-  <!-- Основний вміст -->
-  <main class="main">
-    <div class="container">
-      <div class="products-grid" id="products">
-        <!-- Товари будуть тут -->
-      </div>
-    </div>
-  </main>
+    <nav class="navbar">
+        <div class="container">
+            <div class="categories-dropdown">
+                <button class="dropdown-btn">
+                    <i class="fas fa-bars"></i> Категорії
+                </button>
+                <div class="dropdown-content" id="categories-dropdown">
+                    </div>
+            </div>
 
-  <!-- Підвал -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-section">
-        <h3>Контакти</h3>
-        <p>+380 12 345 6789</p>
-        <p>info@testit.ua</p>
-      </div>
-      <div class="footer-section">
-        <h3>Графік роботи</h3>
-        <p>Пн-Пт: 9:00-18:00</p>
-        <p>Сб-Нд: 10:00-15:00</p>
-      </div>
-    </div>
-  </footer>
+            <ul class="nav-links">
+                <li><a href="/">Головна</a></li>
+                <li><a href="#">Контакти</a></li>
+                <li><a href="#">Знайти нас на карті</a></li>
+                <li><a href="#">Гарантія</a></li>
+            </ul>
+        </div>
+    </nav>
 
-  <!-- Сповіщення -->
-  <div id="notification" class="notification"></div>
+    <main class="main">
+        <div class="container">
+            <div class="products-grid" id="products">
+                </div>
+        </div>
+    </main>
 
-  <script src="/script.js"></script>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-section">
+                <h3>Контакти</h3>
+                <p>+380 12 345 6789</p>
+                <p>info@testit.ua</p>
+            </div>
+            <div class="footer-section">
+                <h3>Графік роботи</h3>
+                <p>Пн-Пт: 9:00-18:00</p>
+                <p>Сб-Нд: 10:00-15:00</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="notification" class="notification"></div>
+
+    <script src="/script.js"></script>
+
+    <script>
+  document.querySelectorAll('.main-category').forEach(category => {
+    category.addEventListener('click', () => {
+      const group = category.closest('.category-group');
+      group.classList.toggle('open');
+    });
+  });
+</script>
+
 </body>
 </html>

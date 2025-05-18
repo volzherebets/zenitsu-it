@@ -1,16 +1,14 @@
 :root {
-  --primary: #87C159;
-  --secondary: #FDB10B;
-  --accent: #058240;
-  --light: #FDB10B;
-  --dark: #222222;
-  --gray: #F3C301;
-  --light-gray: #FEE3A2;
+  --primary: #292929;
+  --secondary: #97004b;
+  --accent: #97004b;
+  --light: #97004b;
+  --dark: #292929;
+  --gray: #97004b;
+  --light-gray: #f5f5f5;
   --white: #ffffff;
-  --shadow: 0 2px 10px rgba(0, 255, 128, 0.1);
-  --success: #FDB10B; /* Яскраво-зелений */
-  --white: #ffffff;
-  --shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+   --success: #ffffff;
 }
 
 * {
@@ -194,8 +192,8 @@ body {
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
 }
 
 .product-card {
@@ -225,17 +223,17 @@ body {
 }
 
 .product-title {
-  font-size: 0.7rem;
-  margin-bottom: 0px;
-  height: 90px;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  height: 100px;
   overflow: hidden;
 }
 
 .product-price {
   color: var(--accent);
   font-weight: bold;
-  font-size: 0.9rem;
-  margin: 10px 0;
+  font-size: 1.2rem;
+  margin: 15px 0;
 }
 
 .add-to-cart {
@@ -281,10 +279,10 @@ body {
   bottom: 20px;
   right: 20px;
   padding: 15px 25px;
-  background-color: #87C159; /* Зелений колір для успіху */
-  color: #ffffff;            /* Білий текст */
+  background-color: #e74c3c;
+  color: var(--white);
   border-radius: 4px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow);
   transform: translateY(100px);
   opacity: 0;
   transition: all 0.3s ease;
@@ -295,7 +293,6 @@ body {
   transform: translateY(0);
   opacity: 1;
 }
-
 
 /* Адаптивність */
 @media (max-width: 768px) {
@@ -451,4 +448,60 @@ body {
   display: flex;
   align-items: center;
   gap: 5px;
+}
+
+/* Категорії */
+.category-group {
+  position: relative;
+}
+
+.main-category {
+  display: block;
+  padding: 12px 16px;
+  font-weight: bold;
+  color: var(--dark);
+  cursor: pointer;
+}
+
+.sub-categories {
+  display: none;
+  padding-left: 15px;
+  background-color: var(--light-gray);
+}
+
+.category-group.open .sub-categories {
+  display: block;
+}
+
+.sub-categories a {
+  display: block;
+  padding: 8px 16px;
+  color: var(--dark);
+  font-size: 0.9rem;
+}
+
+.sub-categories a:hover {
+  background-color: var(--light);
+}
+
+.main-category {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  font-weight: bold;
+  color: var(--dark);
+  cursor: pointer;
+}
+
+.toggle-icon {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-left: 10px;
+}
+
+#categories-dropdown {
+  max-height: 400px; /* Або те, що підходить */
+  overflow-y: auto;
+  padding-right: 5px;
 }
