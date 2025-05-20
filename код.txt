@@ -1,0 +1,4422 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechTrend | Кошик</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            z-index: 10;
+        }
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: none;
+            }
+            .mobile-menu.active {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Header -->
+    <header class="header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+            <a href="/" class="flex items-center">
+                <img src="/images/logo.png" alt="TechTrend" class="h-10 w-auto">
+                <span class="ml-2 text-xl font-bold text-gray-800">TechTrend</span>
+            </a>
+            <div class="flex-1 mx-4 relative hidden md:block">
+                <input id="search-input" type="text" placeholder="Пошук товарів..." 
+                       class="w-full p-2 pl-10 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                <div id="search-results" class="dropdown-menu w-full mt-1 max-h-64 overflow-y-auto"></div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative dropdown hidden md:block">
+                    <button class="text-gray-600 hover:text-blue-600 flex items-center">
+                        <i class="fas fa-bars mr-1"></i> Категорії
+                    </button>
+                    <div id="categories-dropdown" class="dropdown-menu w-64 p-4"></div>
+                </div>
+                <a href="/cart" class="relative text-gray-600 hover:text-blue-600">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full px-2">0</span>
+                </a>
+                <button id="burger-menu" class="md:hidden text-gray-600 hover:text-blue-600">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="mobile-menu md:hidden bg-white shadow-md p-4">
+            <div class="relative mb-4">
+                <input id="mobile-search-input" type="text" placeholder="Пошук товарів..." 
+                       class="w-full p-2 pl-10 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                <div id="mobile-search-results" class="dropdown-menu w-full mt-1 max-h-64 overflow-y-auto"></div>
+            </div>
+            <div id="mobile-categories" class="space-y-2"></div>
+        </div>
+    </header>
+
+    <!-- Кошик -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <h1 class="text-2xl font-bold text-gray-800 mb-4">Кошик</h1>
+        <div class="bg-white rounded-lg shadow-sm p-4">
+            <div id="cart-items" class="space-y-4"></div>
+            <div class="mt-6 border-t pt-4">
+                <h2 class="text-xl font-bold text-gray-800">Загальна сума: <span id="total-price">0.00</span> грн</h2>
+                <button id="checkout" class="mt-4 w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600">
+                    Оформити замовлення
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold">TechTrend</h3>
+                    <p class="mt-2 text-gray-400">Інновації для твого життя.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold">Навігація</h3>
+                    <ul class="mt-2 space-y-2">
+                        <li><a href="/categories" class="text-gray-400 hover:text-orange-500">Категорії</a></li>
+                        <li><a href="/contacts" class="text-gray-400 hover:text-orange-500">Контакти</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold">Контакти</h3>
+                    <p class="mt-2 text-gray-400">Email: support@techtrend.ua</p>
+                    <p class="text-gray-400">Телефон: +380 123 456 789</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Сповіщення -->
+    <div id="notification" class="fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg hidden"></div>
+
+    <script src="/script-cart.js"></script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechTrend | Категорії</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            z-index: 10;
+        }
+        .category-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: none;
+            }
+            .mobile-menu.active {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Header -->
+    <header class="header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+            <a href="/" class="flex items-center">
+                <img src="/images/logo.png" alt="TechTrend" class="h-10 w-auto">
+                <span class="ml-2 text-xl font-bold text-gray-800">TechTrend</span>
+            </a>
+            <div class="flex-1 mx-4 relative hidden md:block">
+                <input id="search-input" type="text" placeholder="Пошук товарів..." 
+                       class="w-full p-2 pl-10 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                <div id="search-results" class="dropdown-menu w-full mt-1 max-h-64 overflow-y-auto"></div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative dropdown hidden md:block">
+                    <button class="text-gray-600 hover:text-blue-600 flex items-center">
+                        <i class="fas fa-bars mr-1"></i> Категорії
+                    </button>
+                    <div id="categories-dropdown" class="dropdown-menu w-64 p-4"></div>
+                </div>
+                <a href="/cart" class="relative text-gray-600 hover:text-blue-600">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full px-2">0</span>
+                </a>
+                <button id="burger-menu" class="md:hidden text-gray-600 hover:text-blue-600">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="mobile-menu md:hidden bg-white shadow-md p-4">
+            <div class="relative mb-4">
+                <input id="mobile-search-input" type="text" placeholder="Пошук товарів..." 
+                       class="w-full p-2 pl-10 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                <div id="mobile-search-results" class="dropdown-menu w-full mt-1 max-h-64 overflow-y-auto"></div>
+            </div>
+            <div id="mobile-categories" class="space-y-2"></div>
+        </div>
+    </header>
+
+    <!-- Категорії -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <h1 class="text-2xl font-bold text-gray-800 mb-4">Усі категорії</h1>
+        <div id="categories-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold">TechTrend</h3>
+                    <p class="mt-2 text-gray-400">Інновації для твого життя.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold">Навігація</h3>
+                    <ul class="mt-2 space-y-2">
+                        <li><a href="/categories" class="text-gray-400 hover:text-orange-500">Категорії</a></li>
+                        <li><a href="/contacts" class="text-gray-400 hover:text-orange-500">Контакти</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold">Контакти</h3>
+                    <p class="mt-2 text-gray-400">Email: support@techtrend.ua</p>
+                    <p class="text-gray-400">Телефон: +380 123 456 789</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Сповіщення -->
+    <div id="notification" class="fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg hidden"></div>
+
+    <script src="/script-categories.js"></script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechTrend | Категорія</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            z-index: 10;
+        }
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: none;
+            }
+            .mobile-menu.active {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Header -->
+    <header class="header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+            <a href="/" class="flex items-center">
+                <img src="/images/logo.png" alt="TechTrend" class="h-10 w-auto">
+                <span class="ml-2 text-xl font-bold text-gray-800">TechTrend</span>
+            </a>
+            <div class="flex-1 mx-4 relative hidden md:block">
+                <input id="search-input" type="text" placeholder="Пошук товарів..." 
+                       class="w-full p-2 pl-10 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                <div id="search-results" class="dropdown-menu w-full mt-1 max-h-64 overflow-y-auto"></div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative dropdown hidden md:block">
+                    <button class="text-gray-600 hover:text-blue-600 flex items-center">
+                        <i class="fas fa-bars mr-1"></i> Категорії
+                    </button>
+                    <div id="categories-dropdown" class="dropdown-menu w-64 p-4"></div>
+                </div>
+                <a href="/cart" class="relative text-gray-600 hover:text-blue-600">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full px-2">0</span>
+                </a>
+                <button id="burger-menu" class="md:hidden text-gray-600 hover:text-blue-600">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="mobile-menu md:hidden bg-white shadow-md p-4">
+            <div class="relative mb-4">
+                <input id="mobile-search-input" type="text" placeholder="Пошук товарів..." 
+                       class="w-full p-2 pl-10 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                <div id="mobile-search-results" class="dropdown-menu w-full mt-1 max-h-64 overflow-y-auto"></div>
+            </div>
+            <div id="mobile-categories" class="space-y-2"></div>
+        </div>
+    </header>
+
+    <!-- Основний контент -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col lg:flex-row gap-6">
+        <!-- Сайдбар -->
+        <aside class="w-full lg:w-1/4 bg-white rounded-lg p-4 shadow-sm">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Категорії</h2>
+            <div id="categories-sidebar" class="space-y-2"></div>
+        </aside>
+
+        <!-- Товари -->
+        <div class="flex-1">
+            <h1 id="category-title" class="text-2xl font-bold text-gray-800 mb-4"></h1>
+            <!-- Фільтри -->
+            <div class="bg-white rounded-lg p-4 mb-4 shadow-sm">
+                <div class="flex flex-wrap gap-4">
+                    <div class="flex-1 min-w-[150px]">
+                        <label class="block text-gray-700 font-semibold mb-1">Ціна</label>
+                        <div class="flex gap-2">
+                            <input id="price-min" type="number" placeholder="Від" class="w-full p-2 border border-gray-300 rounded-lg">
+                            <input id="price-max" type="number" placeholder="До" class="w-full p-2 border border-gray-300 rounded-lg">
+                        </div>
+                    </div>
+                    <div class="flex-1 min-w-[150px]">
+                        <label class="block text-gray-700 font-semibold mb-1">Наявність</label>
+                        <label class="flex items-center">
+                            <input id="available-only" type="checkbox" class="mr-2">
+                            <span>Тільки в наявності</span>
+                        </label>
+                    </div>
+                    <div class="flex-1 min-w-[150px]">
+                        <label class="block text-gray-700 font-semibold mb-1">Сортування</label>
+                        <select id="sort" class="w-full p-2 border border-gray-300 rounded-lg">
+                            <option value="default">За замовчуванням</option>
+                            <option value="price-asc">Ціна: від низької</option>
+                            <option value="price-desc">Ціна: від високої</option>
+                            <option value="popularity">Популярність</option>
+                            <option value="new">Новинки</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div id="products-container" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold">TechTrend</h3>
+                    <p class="mt-2 text-gray-400">Інновації для твого життя.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold">Навігація</h3>
+                    <ul class="mt-2 space-y-2">
+                        <li><a href="/categories" class="text-gray-400 hover:text-orange-500">Категорії</a></li>
+                        <li><a href="/contacts" class="text-gray-400 hover:text-orange-500">Контакти</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold">Контакти</h3>
+                    <p class="mt-2 text-gray-400">Email: support@techtrend.ua</p>
+                    <p class="text-gray-400">Телефон: +380 123 456 789</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Сповіщення -->
+    <div id="notification" class="fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg hidden"></div>
+
+    <script src="/script-category.js"></script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакти | TEST IT</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Навігація -->
+    <nav>
+        <div class="container">
+            <a href="/" class="logo">
+                <img src="/images/logo.png" alt="TEST IT Logo">
+                <span>TEST IT</span>
+            </a>
+            <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+            <div class="menu">
+                <a href="/">Головна</a>
+                <a href="/contacts">Контакти</a>
+                <a href="/map">Знайти нас</a>
+                <a href="/warranty">Гарантія</a>
+                <a href="/cart" class="cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Контакти -->
+    <div class="container">
+        <h1 class="text-2xl font-bold mb-6">Контакти</h1>
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h2 class="text-xl font-semibold mb-4">Зв’яжіться з нами</h2>
+                    <p class="text-gray-600">Email: <a href="mailto:support@testit.ua">support@testit.ua</a></p>
+                    <p class="text-gray-600">Телефон: <a href="tel:+380123456789">+380 123 456 789</a></p>
+                    <p class="text-gray-600">Адреса: вул. Технічна, 123, Київ, Україна</p>
+                </div>
+                <div>
+                    <h2 class="text-xl font-semibold mb-4">Надіслати повідомлення</h2>
+                    <form id="contact-form" class="space-y-4">
+                        <div>
+                            <label for="name" class="block font-semibold">Ім’я</label>
+                            <input type="text" id="name" class="w-full p-2 border rounded-lg bg-[#E1E6C6]" required>
+                        </div>
+                        <div>
+                            <label for="email" class="block font-semibold">Email</label>
+                            <input type="email" id="email" class="w-full p-2 border rounded-lg bg-[#E1E6C6]" required>
+                        </div>
+                        <div>
+                            <label for="message" class="block font-semibold">Повідомлення</label>
+                            <textarea id="message" class="w-full p-2 border rounded-lg bg-[#E1E6C6]" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="primary w-full">Надіслати</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <footer>
+        <div class="container">
+            <div>
+                <h3>TEST IT</h3>
+                <p>Ваш надійний магазин техніки та електроніки.</p>
+            </div>
+            <div>
+                <h3>Навігація</h3>
+                <ul>
+                    <li><a href="/">Головна</a></li>
+                    <li><a href="/contacts">Контакти</a></li>
+                    <li><a href="/map">Знайти нас</a></li>
+                    <li><a href="/warranty">Гарантія</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Контакти</h3>
+                <p>Email: support@testit.ua</p>
+                <p>Телефон: +380 123 456 789</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Сповіщення -->
+    <div id="notification" class="fixed bottom-4 right-4 hidden"></div>
+
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, message })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    document.getElementById('notification').textContent = 'Повідомлення надіслано!';
+                    document.getElementById('notification').classList.add('show');
+                    setTimeout(() => document.getElementById('notification').classList.remove('show'), 3000);
+                    document.getElementById('contact-form').reset();
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                document.getElementById('notification').textContent = 'Помилка надсилання';
+                document.getElementById('notification').classList.add('show');
+                setTimeout(() => document.getElementById('notification').classList.remove('show'), 3000);
+            }
+        });
+
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        document.getElementById('cart-count').textContent = cart.length;
+
+        document.querySelector('.menu-toggle').addEventListener('click', () => {
+            document.querySelector('.menu').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechTrend | Головна</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            z-index: 10;
+        }
+        .category-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: none;
+            }
+            .mobile-menu.active {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Header -->
+    <header class="header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+            <!-- Логотип -->
+            <a href="/" class="flex items-center">
+                <img src="/images/logo.png" alt="TechTrend" class="h-10 w-auto">
+                <span class="ml-2 text-xl font-bold text-gray-800">TechTrend</span>
+            </a>
+
+            <!-- Пошук -->
+            <div class="flex-1 mx-4 relative hidden md:block">
+                <input id="search-input" type="text" placeholder="Пошук товарів..." 
+                       class="w-full p-2 pl-10 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                <div id="search-results" class="dropdown-menu w-full mt-1 max-h-64 overflow-y-auto"></div>
+            </div>
+
+            <!-- Навігація -->
+            <div class="flex items-center space-x-4">
+                <!-- Категорії (Dropdown) -->
+                <div class="relative dropdown hidden md:block">
+                    <button class="text-gray-600 hover:text-blue-600 flex items-center">
+                        <i class="fas fa-bars mr-1"></i> Категорії
+                    </button>
+                    <div id="categories-dropdown" class="dropdown-menu w-64 p-4"></div>
+                </div>
+
+                <a href="/cart" class="relative text-gray-600 hover:text-blue-600">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full px-2">0</span>
+                </a>
+
+                <!-- Бургер-меню для мобільних -->
+                <button id="burger-menu" class="md:hidden text-gray-600 hover:text-blue-600">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Мобільне меню -->
+        <div id="mobile-menu" class="mobile-menu md:hidden bg-white shadow-md p-4">
+            <div class="relative mb-4">
+                <input id="mobile-search-input" type="text" placeholder="Пошук товарів..." 
+                       class="w-full p-2 pl-10 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                <div id="mobile-search-results" class="dropdown-menu w-full mt-1 max-h-64 overflow-y-auto"></div>
+            </div>
+            <div id="mobile-categories" class="space-y-2"></div>
+        </div>
+    </header>
+
+    <!-- Банер -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg p-8 text-center">
+            <h1 class="text-3xl font-bold mb-2">TechTrend – Твій магазин техніки!</h1>
+            <p class="text-lg">Найкращі гаджети та аксесуари за доступними цінами.</p>
+            <a href="/categories" class="mt-4 inline-block bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600">
+                Переглянути категорії
+            </a>
+        </div>
+    </section>
+
+    <!-- Категорії -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Популярні категорії</h2>
+        <div id="categories-section" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4"></div>
+    </section>
+
+    <!-- Популярні товари -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Популярні товари</h2>
+        <div id="popular-products" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4"></div>
+    </section>
+
+    <!-- Новинки -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Новинки</h2>
+        <div id="new-products" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold">TechTrend</h3>
+                    <p class="mt-2 text-gray-400">Інновації для твого життя.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold">Навігація</h3>
+                    <ul class="mt-2 space-y-2">
+                        <li><a href="/categories" class="text-gray-400 hover:text-orange-500">Категорії</a></li>
+                        <li><a href="/contacts" class="text-gray-400 hover:text-orange-500">Контакти</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold">Контакти</h3>
+                    <p class="mt-2 text-gray-400">Email: support@techtrend.ua</p>
+                    <p class="text-gray-400">Телефон: +380 123 456 789</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Сповіщення -->
+    <div id="notification" class="fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg hidden"></div>
+
+    <script src="/script.js"></script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Знайти нас | TEST IT</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Навігація -->
+    <nav>
+        <div class="container">
+            <a href="/" class="logo">
+                <img src="/images/logo.png" alt="TEST IT Logo">
+                <span>TEST IT</span>
+            </a>
+            <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+            <div class="menu">
+                <a href="/">Головна</a>
+                <a href="/contacts">Контакти</a>
+                <a href="/map">Знайти нас</a>
+                <a href="/warranty">Гарантія</a>
+                <a href="/cart" class="cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Карта -->
+    <div class="container">
+        <h1 class="text-2xl font-bold mb-6">Знайти нас на карті</h1>
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2540.6512971378227!2d30.52375961573096!3d50.44758297947548!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d4ce56b9c6b7b7%3A0x8e6b4b6b7b6b7b6b!2sKyiv%2C%20Ukraine!5e0!3m2!1sen!2sua!4v1634567891234!5m2!1sen!2sua" 
+                    width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <footer>
+        <div class="container">
+            <div>
+                <h3>TEST IT</h3>
+                <p>Ваш надійний магазин техніки та електроніки.</p>
+            </div>
+            <div>
+                <h3>Навігація</h3>
+                <ul>
+                    <li><a href="/">Головна</a></li>
+                    <li><a href="/contacts">Контакти</a></li>
+                    <li><a href="/map">Знайти нас</a></li>
+                    <li><a href="/warranty">Гарантія</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Контакти</h3>
+                <p>Email: support@testit.ua</p>
+                <p>Телефон: +380 123 456 789</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Сповіщення -->
+    <div id="notification" class="fixed bottom-4 right-4 hidden"></div>
+
+    <script>
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        document.getElementById('cart-count').textContent = cart.length;
+
+        document.querySelector('.menu-toggle').addEventListener('click', () => {
+            document.querySelector('.menu').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechTrend | Товар</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            z-index: 10;
+        }
+        .thumbnail {
+            transition: border-color 0.3s ease;
+        }
+        .thumbnail:hover, .thumbnail.active {
+            border-color: #3b82f6 !important;
+        }
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: none;
+            }
+            .mobile-menu.active {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Header -->
+    <header class="header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+            <a href="/" class="flex items-center">
+                <img src="/images/logo.png" alt="TechTrend" class="h-10 w-auto">
+                <span class="ml-2 text-xl font-bold text-gray-800">TechTrend</span>
+            </a>
+            <div class="flex-1 mx-4 relative hidden md:block">
+                <input id="search-input" type="text" placeholder="Пошук товарів..." 
+                       class="w-full p-2 pl-10 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                <div id="search-results" class="dropdown-menu w-full mt-1 max-h-64 overflow-y-auto"></div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative dropdown hidden md:block">
+                    <button class="text-gray-600 hover:text-blue-600 flex items-center">
+                        <i class="fas fa-bars mr-1"></i> Категорії
+                    </button>
+                    <div id="categories-dropdown" class="dropdown-menu w-64 p-4"></div>
+                </div>
+                <a href="/cart" class="relative text-gray-600 hover:text-blue-600">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full px-2">0</span>
+                </a>
+                <button id="burger-menu" class="md:hidden text-gray-600 hover:text-blue-600">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="mobile-menu md:hidden bg-white shadow-md p-4">
+            <div class="relative mb-4">
+                <input id="mobile-search-input" type="text" placeholder="Пошук товарів..." 
+                       class="w-full p-2 pl-10 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                <div id="mobile-search-results" class="dropdown-menu w-full mt-1 max-h-64 overflow-y-auto"></div>
+            </div>
+            <div id="mobile-categories" class="space-y-2"></div>
+        </div>
+    </header>
+
+    <!-- Деталі товару -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="bg-white rounded-lg shadow-sm p-6 flex flex-col lg:flex-row gap-6">
+            <!-- Зображення -->
+            <div class="w-full lg:w-1/2">
+                <img id="product-image" src="/images/no-image.jpg" alt="Товар" class="w-full h-96 object-contain rounded-lg mb-4">
+                <div id="image-thumbnails" class="flex gap-2 overflow-x-auto"></div>
+            </div>
+            <!-- Інформація -->
+            <div class="w-full lg:w-1/2">
+                <h1 id="product-name" class="text-3xl font-bold text-gray-800 mb-2"></h1>
+                <p id="product-price" class="text-blue-600 font-bold text-2xl mb-2"></p>
+                <p id="product-availability" class="text-sm mb-4"></p>
+                <p id="product-vendor" class="text-gray-600 mb-2"></p>
+                <p id="product-vendor-code" class="text-gray-600 mb-4"></p>
+                <button id="add-to-cart" class="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 mb-4">
+                    Додати в кошик
+                </button>
+                <div class="border-t pt-4">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-2">Характеристики</h2>
+                    <div id="product-params" class="text-gray-600"></div>
+                </div>
+                <div class="mt-4">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-2">Опис</h2>
+                    <div id="product-description" class="text-gray-600"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold">TechTrend</h3>
+                    <p class="mt-2 text-gray-400">Інновації для твого життя.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold">Навігація</h3>
+                    <ul class="mt-2 space-y-2">
+                        <li><a href="/categories" class="text-gray-400 hover:text-orange-500">Категорії</a></li>
+                        <li><a href="/contacts" class="text-gray-400 hover:text-orange-500">Контакти</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold">Контакти</h3>
+                    <p class="mt-2 text-gray-400">Email: support@techtrend.ua</p>
+                    <p class="text-gray-400">Телефон: +380 123 456 789</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Сповіщення -->
+    <div id="notification" class="fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg hidden"></div>
+
+    <script src="/script-product.js"></script>
+</body>
+</html>
+
+
+class CartApp {
+    constructor() {
+        this.cart = JSON.parse(localStorage.getItem('cart')) || [];
+        this.categories = [];
+        this.subCategories = {};
+        this.searchTimeout = null;
+        this.init();
+    }
+
+    async init() {
+        await this.loadCategories();
+        this.renderCart();
+        this.renderCategories();
+        this.setupEventListeners();
+        this.updateCartCount();
+        this.updateTotalPrice();
+    }
+
+    async loadCategories() {
+        try {
+            const response = await fetch('/api/categories');
+            const data = await response.json();
+            if (data.success) {
+                this.categories = data.categories;
+                this.subCategories = data.subCategories;
+            }
+        } catch (error) {
+            console.error('Помилка завантаження категорій:', error);
+        }
+    }
+
+    renderCart() {
+        const container = document.getElementById('cart-items');
+        container.innerHTML = this.cart.length > 0
+            ? this.cart.map((item, index) => `
+                <div class="flex items-center justify-between border-b py-4">
+                    <div class="flex items-center">
+                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-contain mr-4"
+                             onerror="this.src='/images/no-image.jpg'">
+                        <div>
+                            <a href="/product/${item.id}" class="text-gray-800 font-semibold">${item.name}</a>
+                            <p class="text-blue-600 font-bold">${item.price} грн</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button data-index="${index}" class="decrement bg-gray-200 text-gray-800 px-2 py-1 rounded">-</button>
+                        <span>${item.quantity}</span>
+                        <button data-index="${index}" class="increment bg-gray-200 text-gray-800 px-2 py-1 rounded">+</button>
+                        <button data-index="${index}" class="remove text-red-600 hover:text-red-700">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('')
+            : '<p class="text-center text-gray-500">Кошик порожній</p>';
+    }
+
+    renderCategories() {
+        const dropdown = document.getElementById('categories-dropdown');
+        dropdown.innerHTML = this.categories.map(cat => `
+            <div class="relative dropdown">
+                <a href="/category/${encodeURIComponent(cat)}" class="block p-2 hover:bg-gray-100">${cat}</a>
+                <div class="dropdown-menu w-48 p-2 left-full top-0">
+                    ${this.subCategories[cat].map(sub => `
+                        <a href="/subcategory/${encodeURIComponent(sub)}" class="block p-2 hover:bg-gray-100">${sub}</a>
+                    `).join('')}
+                </div>
+            </div>
+        `).join('');
+
+        const mobile = document.getElementById('mobile-categories');
+        mobile.innerHTML = this.categories.map(cat => `
+            <div>
+                <div class="flex justify-between items-center p-2 hover:bg-gray-100">
+                    <a href="/category/${encodeURIComponent(cat)}" class="text-gray-800">${cat}</a>
+                    <button class="toggle-subcategory text-blue-600" data-category="${cat}">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+                <div class="subcategories hidden pl-4">
+                    ${this.subCategories[cat].map(sub => `
+                        <a href="/subcategory/${encodeURIComponent(sub)}" class="block p-2 hover:bg-gray-100">${sub}</a>
+                    `).join('')}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    updateCartCount() {
+        document.getElementById('cart-count').textContent = this.cart.reduce((sum, item) => sum + item.quantity, 0);
+    }
+
+    updateTotalPrice() {
+        const total = this.cart.reduce((sum, item) => sum + (parseFloat(item.price) * item.quantity), 0);
+        document.getElementById('total-price').textContent = total.toFixed(2);
+    }
+
+    async searchProducts(query, containerId = 'search-results') {
+        try {
+            const response = await fetch(`/api/products?search=${encodeURIComponent(query)}`);
+            const data = await response.json();
+            if (data.success) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = data.products
+                    .filter(p => p.name.toLowerCase().includes(query.toLowerCase()))
+                    .slice(0, 5)
+                    .map(product => `
+                        <a href="/product/${product.id}" class="block p-2 hover:bg-gray-100">
+                            <div class="flex items-center">
+                                <img src="${product.image}" alt="${product.name}" class="w-10 h-10 object-contain mr-2"
+                                     onerror="this.src='/images/no-image.jpg'">
+                                <div>
+                                    <p class="text-gray-800">${product.name}</p>
+                                    <p class="text-blue-600">${product.price} грн</p>
+                                </div>
+                            </div>
+                        </a>
+                    `).join('') || '<p class="p-2 text-gray-500">Нічого не знайдено</p>';
+                container.classList.add('dropdown-menu');
+            }
+        } catch (error) {
+            console.error('Помилка пошуку:', error);
+            this.showNotification('Помилка пошуку', 'bg-red-500');
+        }
+    }
+
+    setupEventListeners() {
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.increment')) {
+                const index = e.target.dataset.index;
+                this.cart[index].quantity += 1;
+                localStorage.setItem('cart', JSON.stringify(this.cart));
+                this.renderCart();
+                this.updateCartCount();
+                this.updateTotalPrice();
+            }
+            if (e.target.closest('.decrement')) {
+                const index = e.target.dataset.index;
+                if (this.cart[index].quantity > 1) {
+                    this.cart[index].quantity -= 1;
+                } else {
+                    this.cart.splice(index, 1);
+                }
+                localStorage.setItem('cart', JSON.stringify(this.cart));
+                this.renderCart();
+                this.updateCartCount();
+                this.updateTotalPrice();
+            }
+            if (e.target.closest('.remove')) {
+                const index = e.target.dataset.index;
+                this.cart.splice(index, 1);
+                localStorage.setItem('cart', JSON.stringify(this.cart));
+                this.renderCart();
+                this.updateCartCount();
+                this.updateTotalPrice();
+            }
+            if (e.target.closest('#checkout')) {
+                this.showNotification('Функція оформлення замовлення в розробці', 'bg-blue-500');
+            }
+            if (e.target.closest('.toggle-subcategory')) {
+                const category = e.target.closest('.toggle-subcategory').dataset.category;
+                const subcategories = e.target.closest('.toggle-subcategory').parentElement.nextElementSibling;
+                subcategories.classList.toggle('hidden');
+                const icon = e.target.querySelector('i');
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
+            }
+        });
+
+        const searchInputs = [
+            { input: document.getElementById('search-input'), results: 'search-results' },
+            { input: document.getElementById('mobile-search-input'), results: 'mobile-search-results' }
+        ];
+
+        searchInputs.forEach(({ input, results }) => {
+            input.addEventListener('input', () => {
+                clearTimeout(this.searchTimeout);
+                const query = input.value.trim();
+                if (query.length > 0) {
+                    this.searchTimeout = setTimeout(() => this.searchProducts(query, results), 300);
+                } else {
+                    document.getElementById(results).innerHTML = '';
+                    document.getElementById(results).classList.remove('dropdown-menu');
+                }
+            });
+
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const query = input.value.trim();
+                    if (query) {
+                        window.location.href = `/search/${encodeURIComponent(query)}`;
+                    }
+                }
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#search-input') && !e.target.closest('#search-results') &&
+                !e.target.closest('#mobile-search-input') && !e.target.closest('#mobile-search-results')) {
+                document.getElementById('search-results').innerHTML = '';
+                document.getElementById('search-results').classList.remove('dropdown-menu');
+                document.getElementById('mobile-search-results').innerHTML = '';
+                document.getElementById('mobile-search-results').classList.remove('dropdown-menu');
+            }
+        });
+
+        document.getElementById('burger-menu').addEventListener('click', () => {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('active');
+        });
+    }
+
+    showNotification(message, bgClass = 'bg-blue-500') {
+        const notification = document.getElementById('notification');
+        notification.textContent = message;
+        notification.className = `fixed bottom-4 right-4 ${bgClass} text-white px-4 py-2 rounded-lg shadow-lg`;
+        notification.classList.remove('hidden');
+        setTimeout(() => notification.classList.add('hidden'), 3000);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    new CartApp();
+});
+
+
+class CategoriesApp {
+    constructor() {
+        this.categories = [];
+        this.subCategories = {};
+        this.cart = JSON.parse(localStorage.getItem('cart')) || [];
+        this.searchTimeout = null;
+        this.expandedCategories = new Set();
+        this.init();
+    }
+
+    async init() {
+        await this.loadCategories();
+        this.renderCategories();
+        this.setupEventListeners();
+        this.updateCartCount();
+    }
+
+    async loadCategories() {
+        try {
+            const response = await fetch('/api/categories');
+            const data = await response.json();
+            if (data.success) {
+                this.categories = data.categories;
+                this.subCategories = data.subCategories;
+            }
+        } catch (error) {
+            console.error('Помилка завантаження категорій:', error);
+            this.showNotification('Не вдалося завантажити категорії', 'bg-red-500');
+        }
+    }
+
+    renderCategories() {
+        const container = document.getElementById('categories-container');
+        container.innerHTML = this.categories.map(category => `
+            <div class="category-card bg-white rounded-lg p-6 shadow-sm">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">
+                    <a href="/category/${encodeURIComponent(category)}" class="hover:text-blue-600">${category}</a>
+                </h2>
+                <ul class="space-y-2">
+                    ${this.subCategories[category].slice(0, this.expandedCategories.has(category) ? undefined : 3).map(subCategory => `
+                        <li>
+                            <a href="/subcategory/${encodeURIComponent(subCategory)}" class="text-gray-600 hover:text-blue-600">
+                                ${subCategory}
+                            </a>
+                        </li>
+                    `).join('')}
+                </ul>
+                ${this.subCategories[category].length > 3 ? `
+                    <button data-category="${category}" class="show-more mt-4 text-blue-600 hover:text-blue-700">
+                        ${this.expandedCategories.has(category) ? 'Приховати' : `Показати всі (${this.subCategories[category].length})`}
+                    </button>
+                ` : ''}
+            </div>
+        `).join('');
+
+        const dropdown = document.getElementById('categories-dropdown');
+        dropdown.innerHTML = this.categories.map(cat => `
+            <div class="relative dropdown">
+                <a href="/category/${encodeURIComponent(cat)}" class="block p-2 hover:bg-gray-100">${cat}</a>
+                <div class="dropdown-menu w-48 p-2 left-full top-0">
+                    ${this.subCategories[cat].map(sub => `
+                        <a href="/subcategory/${encodeURIComponent(sub)}" class="block p-2 hover:bg-gray-100">${sub}</a>
+                    `).join('')}
+                </div>
+            </div>
+        `).join('');
+
+        const mobile = document.getElementById('mobile-categories');
+        mobile.innerHTML = this.categories.map(cat => `
+            <div>
+                <div class="flex justify-between items-center p-2 hover:bg-gray-100">
+                    <a href="/category/${encodeURIComponent(cat)}" class="text-gray-800">${cat}</a>
+                    <button class="toggle-subcategory text-blue-600" data-category="${cat}">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+                <div class="subcategories hidden pl-4">
+                    ${this.subCategories[cat].map(sub => `
+                        <a href="/subcategory/${encodeURIComponent(sub)}" class="block p-2 hover:bg-gray-100">${sub}</a>
+                    `).join('')}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    async searchProducts(query, containerId = 'search-results') {
+        try {
+            const response = await fetch(`/api/products?search=${encodeURIComponent(query)}`);
+            const data = await response.json();
+            if (data.success) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = data.products
+                    .filter(p => p.name.toLowerCase().includes(query.toLowerCase()))
+                    .slice(0, 5)
+                    .map(product => `
+                        <a href="/product/${product.id}" class="block p-2 hover:bg-gray-100">
+                            <div class="flex items-center">
+                                <img src="${product.image}" alt="${product.name}" class="w-10 h-10 object-contain mr-2"
+                                     onerror="this.src='/images/no-image.jpg'">
+                                <div>
+                                    <p class="text-gray-800">${product.name}</p>
+                                    <p class="text-blue-600">${product.price} грн</p>
+                                </div>
+                            </div>
+                        </a>
+                    `).join('') || '<p class="p-2 text-gray-500">Нічого не знайдено</p>';
+                container.classList.add('dropdown-menu');
+            }
+        } catch (error) {
+            console.error('Помилка пошуку:', error);
+            this.showNotification('Помилка пошуку', 'bg-red-500');
+        }
+    }
+
+    updateCartCount() {
+        document.getElementById('cart-count').textContent = this.cart.reduce((sum, item) => sum + item.quantity, 0);
+    }
+
+    toggleCategory(category) {
+        if (this.expandedCategories.has(category)) {
+            this.expandedCategories.delete(category);
+        } else {
+            this.expandedCategories.add(category);
+        }
+        this.renderCategories();
+    }
+
+    setupEventListeners() {
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.show-more')) {
+                const category = e.target.dataset.category;
+                this.toggleCategory(category);
+            }
+            if (e.target.closest('.toggle-subcategory')) {
+                const category = e.target.closest('.toggle-subcategory').dataset.category;
+                const subcategories = e.target.closest('.toggle-subcategory').parentElement.nextElementSibling;
+                subcategories.classList.toggle('hidden');
+                const icon = e.target.querySelector('i');
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
+            }
+        });
+
+        const searchInputs = [
+            { input: document.getElementById('search-input'), results: 'search-results' },
+            { input: document.getElementById('mobile-search-input'), results: 'mobile-search-results' }
+        ];
+
+        searchInputs.forEach(({ input, results }) => {
+            input.addEventListener('input', () => {
+                clearTimeout(this.searchTimeout);
+                const query = input.value.trim();
+                if (query.length > 0) {
+                    this.searchTimeout = setTimeout(() => this.searchProducts(query, results), 300);
+                } else {
+                    document.getElementById(results).innerHTML = '';
+                    document.getElementById(results).classList.remove('dropdown-menu');
+                }
+            });
+
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const query = input.value.trim();
+                    if (query) {
+                        window.location.href = `/search/${encodeURIComponent(query)}`;
+                    }
+                }
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#search-input') && !e.target.closest('#search-results') &&
+                !e.target.closest('#mobile-search-input') && !e.target.closest('#mobile-search-results')) {
+                document.getElementById('search-results').innerHTML = '';
+                document.getElementById('search-results').classList.remove('dropdown-menu');
+                document.getElementById('mobile-search-results').innerHTML = '';
+                document.getElementById('mobile-search-results').classList.remove('dropdown-menu');
+            }
+        });
+
+        document.getElementById('burger-menu').addEventListener('click', () => {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('active');
+        });
+    }
+
+    showNotification(message, bgClass = 'bg-blue-500') {
+        const notification = document.getElementById('notification');
+        notification.textContent = message;
+        notification.className = `fixed bottom-4 right-4 ${bgClass} text-white px-4 py-2 rounded-lg shadow-lg`;
+        notification.classList.remove('hidden');
+        setTimeout(() => notification.classList.add('hidden'), 3000);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    new CategoriesApp();
+});
+
+
+class CategoryApp {
+    constructor() {
+        this.products = [];
+        this.categories = [];
+        this.subCategories = {};
+        this.cart = JSON.parse(localStorage.getItem('cart')) || [];
+        this.searchTimeout = null;
+        const path = window.location.pathname;
+        this.isSubCategory = path.startsWith('/subcategory/');
+        this.categoryName = decodeURIComponent(path.split('/').pop());
+        this.filters = {
+            priceMin: null,
+            priceMax: null,
+            availableOnly: false,
+            sort: 'default'
+        };
+        this.init();
+    }
+
+    async init() {
+        await Promise.all([this.loadProducts(), this.loadCategories()]);
+        this.renderCategories();
+        this.renderProducts();
+        this.setupEventListeners();
+        this.updateCartCount();
+    }
+
+    async loadProducts() {
+        try {
+            const params = new URLSearchParams();
+            if (this.isSubCategory) {
+                params.append('subCategory', this.categoryName);
+            } else {
+                params.append('category', this.categoryName);
+            }
+            if (this.filters.priceMin) params.append('priceMin', this.filters.priceMin);
+            if (this.filters.priceMax) params.append('priceMax', this.filters.priceMax);
+            if (this.filters.availableOnly) params.append('available', true);
+            if (this.filters.sort !== 'default') params.append('sort', this.filters.sort);
+
+            const response = await fetch(`/api/products?${params.toString()}`);
+            const data = await response.json();
+            if (data.success) {
+                this.products = data.products;
+                document.getElementById('category-title').textContent = this.categoryName;
+            }
+        } catch (error) {
+            console.error('Помилка завантаження товарів:', error);
+            this.showNotification('Не вдалося завантажити товари', 'bg-red-500');
+        }
+    }
+
+    async loadCategories() {
+        try {
+            const response = await fetch('/api/categories');
+            const data = await response.json();
+            if (data.success) {
+                this.categories = data.categories;
+                this.subCategories = data.subCategories;
+            }
+        } catch (error) {
+            console.error('Помилка завантаження категорій:', error);
+        }
+    }
+
+    renderCategories() {
+        const sidebar = document.getElementById('categories-sidebar');
+        sidebar.innerHTML = this.categories.map(cat => `
+            <div>
+                <div class="flex justify-between items-center p-2 hover:bg-gray-100">
+                    <a href="/category/${encodeURIComponent(cat)}" class="text-gray-800 font-semibold">${cat}</a>
+                    <button class="toggle-subcategory text-blue-600" data-category="${cat}">
+                        <i class="fas ${this.isSubCategory && this.subCategories[cat].includes(this.categoryName) ? 'fa-chevron-up' : 'fa-chevron-down'}"></i>
+                    </button>
+                </div>
+                <div class="subcategories ${this.isSubCategory && this.subCategories[cat].includes(this.categoryName) ? '' : 'hidden'} pl-4 space-y-1">
+                    ${this.subCategories[cat].map(sub => `
+                        <a href="/subcategory/${encodeURIComponent(sub)}" class="block p-2 hover:bg-gray-100 text-gray-600">${sub}</a>
+                    `).join('')}
+                </div>
+            </div>
+        `).join('');
+
+        const dropdown = document.getElementById('categories-dropdown');
+        dropdown.innerHTML = this.categories.map(cat => `
+            <div class="relative dropdown">
+                <a href="/category/${encodeURIComponent(cat)}" class="block p-2 hover:bg-gray-100">${cat}</a>
+                <div class="dropdown-menu w-48 p-2 left-full top-0">
+                    ${this.subCategories[cat].map(sub => `
+                        <a href="/subcategory/${encodeURIComponent(sub)}" class="block p-2 hover:bg-gray-100">${sub}</a>
+                    `).join('')}
+                </div>
+            </div>
+        `).join('');
+
+        const mobile = document.getElementById('mobile-categories');
+        mobile.innerHTML = this.categories.map(cat => `
+            <div>
+                <div class="flex justify-between items-center p-2 hover:bg-gray-100">
+                    <a href="/category/${encodeURIComponent(cat)}" class="text-gray-800">${cat}</a>
+                    <button class="toggle-subcategory text-blue-600" data-category="${cat}">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+                <div class="subcategories hidden pl-4">
+                    ${this.subCategories[cat].map(sub => `
+                        <a href="/subcategory/${encodeURIComponent(sub)}" class="block p-2 hover:bg-gray-100">${sub}</a>
+                    `).join('')}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    renderProducts() {
+        const container = document.getElementById('products-container');
+        container.innerHTML = this.products.length > 0
+            ? this.products.map(p => `
+                <div class="product-card bg-white rounded-lg overflow-hidden">
+                    <a href="/product/${p.id}">
+                        <img src="${p.image}" alt="${p.name}" class="w-full h-40 object-contain p-4"
+                             onerror="this.src='/images/no-image.jpg'">
+                    </a>
+                    <div class="p-4">
+                        <a href="/product/${p.id}" class="text-gray-800 font-semibold line-clamp-2">${p.name}</a>
+                        <p class="text-blue-600 font-bold mt-1">${p.price} грн</p>
+                        <p class="text-sm ${p.available ? 'text-green-600' : 'text-red-600'}">
+                            ${p.available ? 'В наявності' : 'Немає в наявності'}
+                        </p>
+                        <button class="mt-2 w-full bg-orange-500 text-white py-1 rounded-lg hover:bg-orange-600 
+                                       ${p.available ? '' : 'opacity-50 cursor-not-allowed'}" 
+                                data-id="${p.id}" ${p.available ? '' : 'disabled'}>
+                            Додати в кошик
+                        </button>
+                    </div>
+                </div>
+            `).join('')
+            : '<p class="col-span-full text-center text-gray-500">Товари відсутні</p>';
+    }
+
+    async searchProducts(query, containerId = 'search-results') {
+        try {
+            const response = await fetch(`/api/products?search=${encodeURIComponent(query)}`);
+            const data = await response.json();
+            if (data.success) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = data.products
+                    .filter(p => p.name.toLowerCase().includes(query.toLowerCase()))
+                    .slice(0, 5)
+                    .map(product => `
+                        <a href="/product/${product.id}" class="block p-2 hover:bg-gray-100">
+                            <div class="flex items-center">
+                                <img src="${product.image}" alt="${product.name}" class="w-10 h-10 object-contain mr-2"
+                                     onerror="this.src='/images/no-image.jpg'">
+                                <div>
+                                    <p class="text-gray-800">${product.name}</p>
+                                    <p class="text-blue-600">${product.price} грн</p>
+                                </div>
+                            </div>
+                        </a>
+                    `).join('') || '<p class="p-2 text-gray-500">Нічого не знайдено</p>';
+                container.classList.add('dropdown-menu');
+            }
+        } catch (error) {
+            console.error('Помилка пошуку:', error);
+            this.showNotification('Помилка пошуку', 'bg-red-500');
+        }
+    }
+
+    addToCart(productId) {
+        const product = this.products.find(p => p.id === productId);
+        if (!product) return;
+
+        const cartItem = this.cart.find(p => p.id === productId);
+        if (cartItem) {
+            cartItem.quantity += 1;
+        } else {
+            this.cart.push({ ...product, quantity: 1 });
+        }
+        localStorage.setItem('cart', JSON.stringify(this.cart));
+        this.updateCartCount();
+        this.showNotification(`${product.name} додано в кошик`, 'bg-blue-500');
+    }
+
+    updateCartCount() {
+        document.getElementById('cart-count').textContent = this.cart.reduce((sum, item) => sum + item.quantity, 0);
+    }
+
+    applyFilters() {
+        this.filters.priceMin = parseFloat(document.getElementById('price-min').value) || null;
+        this.filters.priceMax = parseFloat(document.getElementById('price-max').value) || null;
+        this.filters.availableOnly = document.getElementById('available-only').checked;
+        this.filters.sort = document.getElementById('sort').value;
+        this.loadProducts().then(() => this.renderProducts());
+    }
+
+    setupEventListeners() {
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('button[data-id]')) {
+                const id = e.target.dataset.id;
+                this.addToCart(id);
+            }
+            if (e.target.closest('.toggle-subcategory')) {
+                const category = e.target.closest('.toggle-subcategory').dataset.category;
+                const subcategories = e.target.closest('.toggle-subcategory').parentElement.nextElementSibling;
+                subcategories.classList.toggle('hidden');
+                const icon = e.target.querySelector('i');
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
+            }
+        });
+
+        const searchInputs = [
+            { input: document.getElementById('search-input'), results: 'search-results' },
+            { input: document.getElementById('mobile-search-input'), results: 'mobile-search-results' }
+        ];
+
+        searchInputs.forEach(({ input, results }) => {
+            input.addEventListener('input', () => {
+                clearTimeout(this.searchTimeout);
+                const query = input.value.trim();
+                if (query.length > 0) {
+                    this.searchTimeout = setTimeout(() => this.searchProducts(query, results), 300);
+                } else {
+                    document.getElementById(results).innerHTML = '';
+                    document.getElementById(results).classList.remove('dropdown-menu');
+                }
+            });
+
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const query = input.value.trim();
+                    if (query) {
+                        window.location.href = `/search/${encodeURIComponent(query)}`;
+                    }
+                }
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#search-input') && !e.target.closest('#search-results') &&
+                !e.target.closest('#mobile-search-input') && !e.target.closest('#mobile-search-results')) {
+                document.getElementById('search-results').innerHTML = '';
+                document.getElementById('search-results').classList.remove('dropdown-menu');
+                document.getElementById('mobile-search-results').innerHTML = '';
+                document.getElementById('mobile-search-results').classList.remove('dropdown-menu');
+            }
+        });
+
+        document.getElementById('burger-menu').addEventListener('click', () => {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('active');
+        });
+
+        document.getElementById('price-min').addEventListener('input', () => this.applyFilters());
+        document.getElementById('price-max').addEventListener('input', () => this.applyFilters());
+        document.getElementById('available-only').addEventListener('change', () => this.applyFilters());
+        document.getElementById('sort').addEventListener('change', () => this.applyFilters());
+    }
+
+    showNotification(message, bgClass = 'bg-blue-500') {
+        const notification = document.getElementById('notification');
+        notification.textContent = message;
+        notification.className = `fixed bottom-4 right-4 ${bgClass} text-white px-4 py-2 rounded-lg shadow-lg`;
+        notification.classList.remove('hidden');
+        setTimeout(() => notification.classList.add('hidden'), 3000);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    new CategoryApp();
+});
+
+
+class ProductApp {
+    constructor() {
+        this.product = null;
+        this.cart = JSON.parse(localStorage.getItem('cart')) || [];
+        this.categories = [];
+        this.subCategories = {};
+        this.searchTimeout = null;
+        this.productId = window.location.pathname.split('/').pop();
+        this.init();
+    }
+
+    async init() {
+        await Promise.all([this.loadProduct(), this.loadCategories()]);
+        this.renderProduct();
+        this.renderCategories();
+        this.setupEventListeners();
+        this.updateCartCount();
+    }
+
+    async loadProduct() {
+        try {
+            const response = await fetch(`/api/products`);
+            const data = await response.json();
+            if (data.success) {
+                this.product = data.products.find(p => p.id === this.productId);
+                if (this.product) {
+                    await fetch('/api/view', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ productId: this.productId })
+                    });
+                }
+            }
+        } catch (error) {
+            console.error('Помилка завантаження товару:', error);
+            this.showNotification('Не вдалося завантажити товар', 'bg-red-500');
+        }
+    }
+
+    async loadCategories() {
+        try {
+            const response = await fetch('/api/categories');
+            const data = await response.json();
+            if (data.success) {
+                this.categories = data.categories;
+                this.subCategories = data.subCategories;
+            }
+        } catch (error) {
+            console.error('Помилка завантаження категорій:', error);
+        }
+    }
+
+    renderProduct() {
+        if (!this.product) {
+            document.querySelector('.max-w-7xl').innerHTML = '<p class="text-center text-gray-500">Товар не знайдено</p>';
+            return;
+        }
+
+        document.getElementById('product-name').textContent = this.product.name;
+        document.getElementById('product-price').textContent = `${this.product.price} грн`;
+        document.getElementById('product-availability').textContent = this.product.available ? 'В наявності' : 'Немає в наявності';
+        document.getElementById('product-availability').className = `text-sm mb-4 ${this.product.available ? 'text-green-600' : 'text-red-600'}`;
+        document.getElementById('product-vendor').textContent = this.product.vendor ? `Виробник: ${this.product.vendor}` : '';
+        document.getElementById('product-vendor-code').textContent = this.product.vendorCode ? `Код товару: ${this.product.vendorCode}` : '';
+        document.getElementById('product-image').src = this.product.image;
+        document.getElementById('product-image').onerror = () => { this.src = '/images/no-image.jpg'; };
+        document.getElementById('add-to-cart').disabled = !this.product.available;
+        document.getElementById('add-to-cart').className = `w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 ${this.product.available ? '' : 'opacity-50 cursor-not-allowed'}`;
+        document.getElementById('product-description').innerHTML = this.product.description || 'Опис відсутній';
+
+        const paramsContainer = document.getElementById('product-params');
+        paramsContainer.innerHTML = Object.entries(this.product.params).length > 0
+            ? Object.entries(this.product.params).map(([key, value]) => `<p><strong>${key}:</strong> ${value}</p>`).join('')
+            : '<p>Характеристики відсутні</p>';
+
+        const thumbnailsContainer = document.getElementById('image-thumbnails');
+        thumbnailsContainer.innerHTML = this.product.images.length > 0
+            ? this.product.images.map((img, index) => `
+                <img src="${img}" alt="${this.product.name}" class="w-16 h-16 object-contain rounded-lg border thumbnail ${index === 0 ? 'active border-blue-500' : 'border-gray-300'}"
+                     data-index="${index}" onerror="this.src='/images/no-image.jpg'">
+              `).join('')
+            : '';
+    }
+
+    renderCategories() {
+        const dropdown = document.getElementById('categories-dropdown');
+        dropdown.innerHTML = this.categories.map(cat => `
+            <div class="relative dropdown">
+                <a href="/category/${encodeURIComponent(cat)}" class="block p-2 hover:bg-gray-100">${cat}</a>
+                <div class="dropdown-menu w-48 p-2 left-full top-0">
+                    ${this.subCategories[cat].map(sub => `
+                        <a href="/subcategory/${encodeURIComponent(sub)}" class="block p-2 hover:bg-gray-100">${sub}</a>
+                    `).join('')}
+                </div>
+            </div>
+        `).join('');
+
+        const mobile = document.getElementById('mobile-categories');
+        mobile.innerHTML = this.categories.map(cat => `
+            <div>
+                <div class="flex justify-between items-center p-2 hover:bg-gray-100">
+                    <a href="/category/${encodeURIComponent(cat)}" class="text-gray-800">${cat}</a>
+                    <button class="toggle-subcategory text-blue-600" data-category="${cat}">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+                <div class="subcategories hidden pl-4">
+                    ${this.subCategories[cat].map(sub => `
+                        <a href="/subcategory/${encodeURIComponent(sub)}" class="block p-2 hover:bg-gray-100">${sub}</a>
+                    `).join('')}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    addToCart() {
+        if (!this.product) return;
+
+        const cartItem = this.cart.find(p => p.id === this.productId);
+        if (cartItem) {
+            cartItem.quantity += 1;
+        } else {
+            this.cart.push({ ...this.product, quantity: 1 });
+        }
+        localStorage.setItem('cart', JSON.stringify(this.cart));
+        this.updateCartCount();
+        this.showNotification(`${this.product.name} додано в кошик`, 'bg-blue-500');
+    }
+
+    updateCartCount() {
+        document.getElementById('cart-count').textContent = this.cart.reduce((sum, item) => sum + item.quantity, 0);
+    }
+
+    async searchProducts(query, containerId = 'search-results') {
+        try {
+            const response = await fetch(`/api/products?search=${encodeURIComponent(query)}`);
+            const data = await response.json();
+            if (data.success) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = data.products
+                    .filter(p => p.name.toLowerCase().includes(query.toLowerCase()))
+                    .slice(0, 5)
+                    .map(product => `
+                        <a href="/product/${product.id}" class="block p-2 hover:bg-gray-100">
+                            <div class="flex items-center">
+                                <img src="${product.image}" alt="${product.name}" class="w-10 h-10 object-contain mr-2"
+                                     onerror="this.src='/images/no-image.jpg'">
+                                <div>
+                                    <p class="text-gray-800">${product.name}</p>
+                                    <p class="text-blue-600">${product.price} грн</p>
+                                </div>
+                            </div>
+                        </a>
+                    `).join('') || '<p class="p-2 text-gray-500">Нічого не знайдено</p>';
+                container.classList.add('dropdown-menu');
+            }
+        } catch (error) {
+            console.error('Помилка пошуку:', error);
+            this.showNotification('Помилка пошуку', 'bg-red-500');
+        }
+    }
+
+    setupEventListeners() {
+        document.getElementById('add-to-cart').addEventListener('click', () => this.addToCart());
+
+        const searchInputs = [
+            { input: document.getElementById('search-input'), results: 'search-results' },
+            { input: document.getElementById('mobile-search-input'), results: 'mobile-search-results' }
+        ];
+
+        searchInputs.forEach(({ input, results }) => {
+            input.addEventListener('input', () => {
+                clearTimeout(this.searchTimeout);
+                const query = input.value.trim();
+                if (query.length > 0) {
+                    this.searchTimeout = setTimeout(() => this.searchProducts(query, results), 300);
+                } else {
+                    document.getElementById(results).innerHTML = '';
+                    document.getElementById(results).classList.remove('dropdown-menu');
+                }
+            });
+
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const query = input.value.trim();
+                    if (query) {
+                        window.location.href = `/search/${encodeURIComponent(query)}`;
+                    }
+                }
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#search-input') && !e.target.closest('#search-results') &&
+                !e.target.closest('#mobile-search-input') && !e.target.closest('#mobile-search-results')) {
+                document.getElementById('search-results').innerHTML = '';
+                document.getElementById('search-results').classList.remove('dropdown-menu');
+                document.getElementById('mobile-search-results').innerHTML = '';
+                document.getElementById('mobile-search-results').classList.remove('dropdown-menu');
+            }
+            if (e.target.closest('.thumbnail')) {
+                const thumbnails = document.querySelectorAll('.thumbnail');
+                thumbnails.forEach(t => t.classList.remove('active', 'border-blue-500'));
+                t.classList.add('active', 'border-blue-500');
+                document.getElementById('product-image').src = e.target.src;
+            }
+            if (e.target.closest('.toggle-subcategory')) {
+                const category = e.target.closest('.toggle-subcategory').dataset.category;
+                const subcategories = e.target.closest('.toggle-subcategory').parentElement.nextElementSibling;
+                subcategories.classList.toggle('hidden');
+                const icon = e.target.querySelector('i');
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
+            }
+        });
+
+        document.getElementById('burger-menu').addEventListener('click', () => {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('active');
+        });
+    }
+
+    showNotification(message, bgClass = 'bg-blue-500') {
+        const notification = document.getElementById('notification');
+        notification.textContent = message;
+        notification.className = `fixed bottom-4 right-4 ${bgClass} text-white px-4 py-2 rounded-lg shadow-lg`;
+        notification.classList.remove('hidden');
+        setTimeout(() => notification.classList.add('hidden'), 3000);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    new ProductApp();
+});
+
+
+class SearchApp {
+    constructor() {
+        this.products = [];
+        this.cart = JSON.parse(localStorage.getItem('cart')) || [];
+        this.categories = [];
+        this.subCategories = {};
+        this.searchTimeout = null;
+        this.query = decodeURIComponent(window.location.pathname.split('/').pop());
+        this.init();
+    }
+
+    async init() {
+        await Promise.all([this.loadProducts(), this.loadCategories()]);
+        this.renderCategories();
+        this.renderProducts();
+        this.setupEventListeners();
+        this.updateCartCount();
+    }
+
+    async loadProducts() {
+        try {
+            const response = await fetch(`/api/products?search=${encodeURIComponent(this.query)}`);
+            const data = await response.json();
+            if (data.success) {
+                this.products = data.products;
+                document.getElementById('search-title').textContent = `Результати пошуку для "${this.query}"`;
+            }
+        } catch (error) {
+            console.error('Помилка завантаження товарів:', error);
+            this.showNotification('Не вдалося завантажити товари', 'bg-red-500');
+        }
+    }
+
+    async loadCategories() {
+        try {
+            const response = await fetch('/api/categories');
+            const data = await response.json();
+            if (data.success) {
+                this.categories = data.categories;
+                this.subCategories = data.subCategories;
+            }
+        } catch (error) {
+            console.error('Помилка завантаження категорій:', error);
+        }
+    }
+
+    renderCategories() {
+        const dropdown = document.getElementById('categories-dropdown');
+        dropdown.innerHTML = this.categories.map(cat => `
+            <div class="relative dropdown">
+                <a href="/category/${encodeURIComponent(cat)}" class="block p-2 hover:bg-gray-100">${cat}</a>
+                <div class="dropdown-menu w-48 p-2 left-full top-0">
+                    ${this.subCategories[cat].map(sub => `
+                        <a href="/subcategory/${encodeURIComponent(sub)}" class="block p-2 hover:bg-gray-100">${sub}</a>
+                    `).join('')}
+                </div>
+            </div>
+        `).join('');
+
+        const mobile = document.getElementById('mobile-categories');
+        mobile.innerHTML = this.categories.map(cat => `
+            <div>
+                <div class="flex justify-between items-center p-2 hover:bg-gray-100">
+                    <a href="/category/${encodeURIComponent(cat)}" class="text-gray-800">${cat}</a>
+                    <button class="toggle-subcategory text-blue-600" data-category="${cat}">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+                <div class="subcategories hidden pl-4">
+                    ${this.subCategories[cat].map(sub => `
+                        <a href="/subcategory/${encodeURIComponent(sub)}" class="block p-2 hover:bg-gray-100">${sub}</a>
+                    `).join('')}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    renderProducts() {
+        const container = document.getElementById('products-container');
+        container.innerHTML = this.products.length > 0
+            ? this.products.map(p => `
+                <div class="product-card bg-white rounded-lg overflow-hidden">
+                    <a href="/product/${p.id}">
+                        <img src="${p.image}" alt="${p.name}" class="w-full h-40 object-contain p-4"
+                             onerror="this.src='/images/no-image.jpg'">
+                    </a>
+                    <div class="p-4">
+                        <a href="/product/${p.id}" class="text-gray-800 font-semibold line-clamp-2">${p.name}</a>
+                        <p class="text-blue-600 font-bold mt-1">${p.price} грн</p>
+                        <p class="text-sm ${p.available ? 'text-green-600' : 'text-red-600'}">
+                            ${p.available ? 'В наявності' : 'Немає в наявності'}
+                        </p>
+                        <button class="mt-2 w-full bg-orange-500 text-white py-1 rounded-lg hover:bg-orange-600 
+                                       ${p.available ? '' : 'opacity-50 cursor-not-allowed'}" 
+                                data-id="${p.id}" ${p.available ? '' : 'disabled'}>
+                            Додати в кошик
+                        </button>
+                    </div>
+                </div>
+            `).join('')
+            : '<p class="col-span-full text-center text-gray-500">Товари не знайдені</p>';
+    }
+
+    async searchProducts(query, containerId = 'search-results') {
+        try {
+            const response = await fetch(`/api/products?search=${encodeURIComponent(query)}`);
+            const data = await response.json();
+            if (data.success) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = data.products
+                    .filter(p => p.name.toLowerCase().includes(query.toLowerCase()))
+                    .slice(0, 5)
+                    .map(product => `
+                        <a href="/product/${product.id}" class="block p-2 hover:bg-gray-100">
+                            <div class="flex items-center">
+                                <img src="${product.image}" alt="${product.name}" class="w-10 h-10 object-contain mr-2"
+                                     onerror="this.src='/images/no-image.jpg'">
+                                <div>
+                                    <p class="text-gray-800">${product.name}</p>
+                                    <p class="text-blue-600">${product.price} грн</p>
+                                </div>
+                            </div>
+                        </a>
+                    `).join('') || '<p class="p-2 text-gray-500">Нічого не знайдено</p>';
+                container.classList.add('dropdown-menu');
+            }
+        } catch (error) {
+            console.error('Помилка пошуку:', error);
+            this.showNotification('Помилка пошуку', 'bg-red-500');
+        }
+    }
+
+    addToCart(productId) {
+        const product = this.products.find(p => p.id === productId);
+        if (!product) return;
+
+        const cartItem = this.cart.find(p => p.id === productId);
+        if (cartItem) {
+            cartItem.quantity += 1;
+        } else {
+            this.cart.push({ ...product, quantity: 1 });
+        }
+        localStorage.setItem('cart', JSON.stringify(this.cart));
+        this.updateCartCount();
+        this.showNotification(`${product.name} додано в кошик`, 'bg-blue-500');
+    }
+
+    updateCartCount() {
+        document.getElementById('cart-count').textContent = this.cart.reduce((sum, item) => sum + item.quantity, 0);
+    }
+
+    setupEventListeners() {
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('button[data-id]')) {
+                const id = e.target.dataset.id;
+                this.addToCart(id);
+            }
+            if (e.target.closest('.toggle-subcategory')) {
+                const category = e.target.closest('.toggle-subcategory').dataset.category;
+                const subcategories = e.target.closest('.toggle-subcategory').parentElement.nextElementSibling;
+                subcategories.classList.toggle('hidden');
+                const icon = e.target.querySelector('i');
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
+            }
+        });
+
+        const searchInputs = [
+            { input: document.getElementById('search-input'), results: 'search-results' },
+            { input: document.getElementById('mobile-search-input'), results: 'mobile-search-results' }
+        ];
+
+        searchInputs.forEach(({ input, results }) => {
+            input.addEventListener('input', () => {
+                clearTimeout(this.searchTimeout);
+                const query = input.value.trim();
+                if (query.length > 0) {
+                    this.searchTimeout = setTimeout(() => this.searchProducts(query, results), 300);
+                } else {
+                    document.getElementById(results).innerHTML = '';
+                    document.getElementById(results).classList.remove('dropdown-menu');
+                }
+            });
+
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const query = input.value.trim();
+                    if (query) {
+                        window.location.href = `/search/${encodeURIComponent(query)}`;
+                    }
+                }
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#search-input') && !e.target.closest('#search-results') &&
+                !e.target.closest('#mobile-search-input') && !e.target.closest('#mobile-search-results')) {
+                document.getElementById('search-results').innerHTML = '';
+                document.getElementById('search-results').classList.remove('dropdown-menu');
+                document.getElementById('mobile-search-results').innerHTML = '';
+                document.getElementById('mobile-search-results').classList.remove('dropdown-menu');
+            }
+        });
+
+        document.getElementById('burger-menu').addEventListener('click', () => {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('active');
+        });
+
+        document.getElementById('search-input').value = this.query;
+        document.getElementById('mobile-search-input').value = this.query;
+    }
+
+    showNotification(message, bgClass = 'bg-blue-500') {
+        const notification = document.getElementById('notification');
+        notification.textContent = message;
+        notification.className = `fixed bottom-4 right-4 ${bgClass} text-white px-4 py-2 rounded-lg shadow-lg`;
+        notification.classList.remove('hidden');
+        setTimeout(() => notification.classList.add('hidden'), 3000);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    new SearchApp();
+});
+
+
+class ShopApp {
+    constructor() {
+        this.popularProducts = [];
+        this.newProducts = [];
+        this.cart = JSON.parse(localStorage.getItem('cart')) || [];
+        this.categories = [];
+        this.subCategories = {};
+        this.searchTimeout = null;
+        this.init();
+    }
+
+    async init() {
+        await Promise.all([this.loadData(), this.loadCategories()]);
+        this.renderCategories();
+        this.renderProducts();
+        this.setupEventListeners();
+        this.updateCartCount();
+    }
+
+    async loadData() {
+        try {
+            const [popularRes, newRes] = await Promise.all([
+                fetch('/api/popular?limit=10'),
+                fetch('/api/products?sort=new&limit=10')
+            ]);
+            const [popularData, newData] = await Promise.all([popularRes.json(), newRes.json()]);
+            if (popularData.success && newData.success) {
+                this.popularProducts = popularData.products;
+                this.newProducts = newData.products;
+            }
+        } catch (error) {
+            console.error('Помилка завантаження:', error);
+            this.showNotification('Не вдалося завантажити товари', 'bg-red-500');
+        }
+    }
+
+    async loadCategories() {
+        try {
+            const response = await fetch('/api/categories');
+            const data = await response.json();
+            if (data.success) {
+                this.categories = data.categories;
+                this.subCategories = data.subCategories;
+            }
+        } catch (error) {
+            console.error('Помилка завантаження категорій:', error);
+        }
+    }
+
+    renderCategories() {
+        const section = document.getElementById('categories-section');
+        section.innerHTML = this.categories.map(cat => `
+            <a href="/category/${encodeURIComponent(cat)}" class="category-card bg-white rounded-lg p-4 text-center">
+                <i class="fas fa-laptop text-3xl text-blue-500 mb-2"></i>
+                <h3 class="text-gray-800 font-semibold">${cat}</h3>
+            </a>
+        `).join('');
+
+        const dropdown = document.getElementById('categories-dropdown');
+        dropdown.innerHTML = this.categories.map(cat => `
+            <div class="relative dropdown">
+                <a href="/category/${encodeURIComponent(cat)}" class="block p-2 hover:bg-gray-100">${cat}</a>
+                <div class="dropdown-menu w-48 p-2 left-full top-0">
+                    ${this.subCategories[cat].map(sub => `
+                        <a href="/subcategory/${encodeURIComponent(sub)}" class="block p-2 hover:bg-gray-100">${sub}</a>
+                    `).join('')}
+                </div>
+            </div>
+        `).join('');
+
+        const mobile = document.getElementById('mobile-categories');
+        mobile.innerHTML = this.categories.map(cat => `
+            <div>
+                <div class="flex justify-between items-center p-2 hover:bg-gray-100">
+                    <a href="/category/${encodeURIComponent(cat)}" class="text-gray-800">${cat}</a>
+                    <button class="toggle-subcategory text-blue-600" data-category="${cat}">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+                <div class="subcategories hidden pl-4">
+                    ${this.subCategories[cat].map(sub => `
+                        <a href="/subcategory/${encodeURIComponent(sub)}" class="block p-2 hover:bg-gray-100">${sub}</a>
+                    `).join('')}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    renderProducts() {
+        const popularContainer = document.getElementById('popular-products');
+        popularContainer.innerHTML = this.popularProducts.map(p => this.renderProductCard(p)).join('');
+
+        const newContainer = document.getElementById('new-products');
+        newContainer.innerHTML = this.newProducts.map(p => this.renderProductCard(p)).join('');
+    }
+
+    renderProductCard(product) {
+        return `
+            <div class="product-card bg-white rounded-lg overflow-hidden">
+                <a href="/product/${product.id}">
+                    <img src="${product.image}" alt="${product.name}" class="w-full h-40 object-contain p-4"
+                         onerror="this.src='/images/no-image.jpg'">
+                </a>
+                <div class="p-4">
+                    <a href="/product/${product.id}" class="text-gray-800 font-semibold line-clamp-2">${product.name}</a>
+                    <p class="text-blue-600 font-bold mt-1">${product.price} грн</p>
+                    <p class="text-sm ${product.available ? 'text-green-600' : 'text-red-600'}">
+                        ${product.available ? 'В наявності' : 'Немає в наявності'}
+                    </p>
+                    <button class="mt-2 w-full bg-orange-500 text-white py-1 rounded-lg hover:bg-orange-600 
+                                   ${product.available ? '' : 'opacity-50 cursor-not-allowed'}" 
+                            data-id="${product.id}" ${product.available ? '' : 'disabled'}>
+                        Додати в кошик
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+
+    async searchProducts(query, containerId = 'search-results') {
+        try {
+            const response = await fetch(`/api/products?search=${encodeURIComponent(query)}`);
+            const data = await response.json();
+            if (data.success) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = data.products
+                    .filter(p => p.name.toLowerCase().includes(query.toLowerCase()))
+                    .slice(0, 5)
+                    .map(product => `
+                        <a href="/product/${product.id}" class="block p-2 hover:bg-gray-100">
+                            <div class="flex items-center">
+                                <img src="${product.image}" alt="${product.name}" class="w-10 h-10 object-contain mr-2"
+                                     onerror="this.src='/images/no-image.jpg'">
+                                <div>
+                                    <p class="text-gray-800">${product.name}</p>
+                                    <p class="text-blue-600">${product.price} грн</p>
+                                </div>
+                            </div>
+                        </a>
+                    `).join('') || '<p class="p-2 text-gray-500">Нічого не знайдено</p>';
+                container.classList.add('dropdown-menu');
+            }
+        } catch (error) {
+            console.error('Помилка пошуку:', error);
+            this.showNotification('Помилка пошуку', 'bg-red-500');
+        }
+    }
+
+    addToCart(productId) {
+        const product = [...this.popularProducts, ...this.newProducts].find(p => p.id === productId);
+        if (!product) return;
+
+        const cartItem = this.cart.find(p => p.id === productId);
+        if (cartItem) {
+            cartItem.quantity += 1;
+        } else {
+            this.cart.push({ ...product, quantity: 1 });
+        }
+        localStorage.setItem('cart', JSON.stringify(this.cart));
+        this.updateCartCount();
+        this.showNotification(`${product.name} додано в кошик`, 'bg-blue-500');
+    }
+
+    updateCartCount() {
+        document.getElementById('cart-count').textContent = this.cart.reduce((sum, item) => sum + item.quantity, 0);
+    }
+
+    setupEventListeners() {
+        // Додавання в кошик
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('button[data-id]')) {
+                const id = e.target.dataset.id;
+                this.addToCart(id);
+            }
+            if (e.target.closest('.toggle-subcategory')) {
+                const category = e.target.closest('.toggle-subcategory').dataset.category;
+                const subcategories = e.target.closest('.toggle-subcategory').parentElement.nextElementSibling;
+                subcategories.classList.toggle('hidden');
+                const icon = e.target.querySelector('i');
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
+            }
+        });
+
+        // Пошук
+        const searchInputs = [
+            { input: document.getElementById('search-input'), results: 'search-results' },
+            { input: document.getElementById('mobile-search-input'), results: 'mobile-search-results' }
+        ];
+
+        searchInputs.forEach(({ input, results }) => {
+            input.addEventListener('input', () => {
+                clearTimeout(this.searchTimeout);
+                const query = input.value.trim();
+                if (query.length > 0) {
+                    this.searchTimeout = setTimeout(() => this.searchProducts(query, results), 300);
+                } else {
+                    document.getElementById(results).innerHTML = '';
+                    document.getElementById(results).classList.remove('dropdown-menu');
+                }
+            });
+
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const query = input.value.trim();
+                    if (query) {
+                        window.location.href = `/search/${encodeURIComponent(query)}`;
+                    }
+                }
+            });
+        });
+
+        // Закриття результатів пошуку
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#search-input') && !e.target.closest('#search-results') &&
+                !e.target.closest('#mobile-search-input') && !e.target.closest('#mobile-search-results')) {
+                document.getElementById('search-results').innerHTML = '';
+                document.getElementById('search-results').classList.remove('dropdown-menu');
+                document.getElementById('mobile-search-results').innerHTML = '';
+                document.getElementById('mobile-search-results').classList.remove('dropdown-menu');
+            }
+        });
+
+        // Бургер-меню
+        document.getElementById('burger-menu').addEventListener('click', () => {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('active');
+        });
+    }
+
+    showNotification(message, bgClass = 'bg-blue-500') {
+        const notification = document.getElementById('notification');
+        notification.textContent = message;
+        notification.className = `fixed bottom-4 right-4 ${bgClass} text-white px-4 py-2 rounded-lg shadow-lg`;
+        notification.classList.remove('hidden');
+        setTimeout(() => notification.classList.add('hidden'), 3000);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    new ShopApp();
+});
+
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VolzShop | Пошук</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .animate-slide-in {
+            animation: slideIn 0.5s ease-out forwards;
+        }
+        .search-bar {
+            position: sticky;
+            top: 1rem;
+            z-index: 50;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Навігація -->
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center">
+                        <img src="/images/logo.png" alt="VolzShop" class="h-8">
+                        <span class="ml-2 text-xl font-bold text-gray-800">VolzShop</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/" class="text-gray-600 hover:text-pink-600">Головна</a>
+                    <a href="/categories" class="text-gray-600 hover:text-pink-600">Категорії</a>
+                    <a href="/contacts" class="text-gray-600 hover:text-pink-600">Контакти</a>
+                    <a href="/map" class="text-gray-600 hover:text-pink-600">Де ми</a>
+                    <a href="/warranty" class="text-gray-600 hover:text-pink-600">Гарантія</a>
+                    <a href="/cart" class="relative text-gray-600 hover:text-pink-600">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="cart-count" class="absolute -top-2 -right-2 bg-pink-500 text-white text-xs rounded-full px-2">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Пошук -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 search-bar">
+        <div class="relative">
+            <input id="search-input" type="text" placeholder="Пошук товарів..." 
+                   class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 bg-white">
+            <div id="search-results" class="absolute w-full bg-white border border-gray-300 rounded-lg mt-1 max-h-64 overflow-y-auto shadow-lg z-50 hidden"></div>
+        </div>
+    </div>
+
+    <!-- Основний контент -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row gap-6">
+        <!-- Ліва панель: Категорії -->
+        <aside class="w-full lg:w-1/4 bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Категорії</h2>
+            <ul id="categories-sidebar" class="space-y-2"></ul>
+        </aside>
+
+        <!-- Центральна частина: Товари -->
+        <div class="flex-1">
+            <h1 id="search-title" class="text-3xl font-bold text-gray-800 mb-6"></h1>
+            <div id="products-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+
+        <!-- Права панель: Фільтри -->
+        <aside class="w-full lg:w-1/4 bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Фільтри</h2>
+            <div class="space-y-4">
+                <!-- Фільтр за ціною -->
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Ціна</label>
+                    <input id="price-min" type="number" placeholder="Від" class="w-full p-2 border border-gray-300 rounded-lg">
+                    <input id="price-max" type="number" placeholder="До" class="w-full p-2 border border-gray-300 rounded-lg mt-2">
+                </div>
+                <!-- Фільтр за наявністю -->
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Наявність</label>
+                    <label class="flex items-center">
+                        <input id="available-only" type="checkbox" class="mr-2">
+                        <span>Тільки в наявності</span>
+                    </label>
+                </div>
+                <!-- Сортування -->
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Сортування</label>
+                    <select id="sort" class="w-full p-2 border border-gray-300 rounded-lg">
+                        <option value="default">За замовчуванням</option>
+                        <option value="price-asc">Ціна: від низької</option>
+                        <option value="price-desc">Ціна: від високої</option>
+                        <option value="popularity">Популярність</option>
+                        <option value="new">Новинки</option>
+                    </select>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold">VolzShop</h3>
+                    <p class="mt-2 text-gray-400">Ваш надійний магазин техніки та електроніки.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold">Навігація</h3>
+                    <ul class="mt-2 space-y-2">
+                        <li><a href="/" class="text-gray-400 hover:text-pink-500">Головна</a></li>
+                        <li><a href="/categories" class="text-gray-400 hover:text-pink-500">Категорії</a></li>
+                        <li><a href="/contacts" class="text-gray-400 hover:text-pink-500">Контакти</a></li>
+                        <li><a href="/map" class="text-gray-400 hover:text-pink-500">Де ми</a></li>
+                        <li><a href="/warranty" class="text-gray-400 hover:text-pink-500">Гарантія</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold">Контакти</h3>
+                    <p class="mt-2 text-gray-400">Email: support@volzshop.ua</p>
+                    <p class="text-gray-400">Телефон: +380 123 456 789</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Сповіщення -->
+    <div id="notification" class="fixed bottom-4 right-4 bg-pink-500 text-white px-4 py-2 rounded-lg shadow-lg hidden"></div>
+
+    <script src="/script-search.js"></script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Гарантія | TEST IT</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Навігація -->
+    <nav>
+        <div class="container">
+            <a href="/" class="logo">
+                <img src="/images/logo.png" alt="TEST IT Logo">
+                <span>TEST IT</span>
+            </a>
+            <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+            <div class="menu">
+                <a href="/">Головна</a>
+                <a href="/contacts">Контакти</a>
+                <a href="/map">Знайти нас</a>
+                <a href="/warranty">Гарантія</a>
+                <a href="/cart" class="cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Гарантія -->
+    <div class="container">
+        <h1 class="text-2xl font-bold mb-6">Гарантія</h1>
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold mb-4">Умови гарантії</h2>
+            <p class="text-gray-600 mb-4">
+                Ми надаємо гарантію на всі товари, придбані в нашому магазині. Термін гарантії залежить від типу товару і становить від 6 до 24 місяців.
+            </p>
+            <p class="text-gray-600 mb-4">
+                Для отримання гарантійного обслуговування, будь ласка, зв’яжіться з нами через форму на сторінці контактів або за телефоном.
+            </p>
+            <a href="/contacts" class="primary inline-block">Зв’язатися з нами</a>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <footer>
+        <div class="container">
+            <div>
+                <h3>TEST IT</h3>
+                <p>Ваш надійний магазин техніки та електроніки.</p>
+            </div>
+            <div>
+                <h3>Навігація</h3>
+                <ul>
+                    <li><a href="/">Головна</a></li>
+                    <li><a href="/contacts">Контакти</a></li>
+                    <li><a href="/map">Знайти нас</a></li>
+                    <li><a href="/warranty">Гарантія</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Контакти</h3>
+                <p>Email: support@testit.ua</p>
+                <p>Телефон: +380 123 456 789</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Сповіщення -->
+    <div id="notification" class="fixed bottom-4 right-4 hidden"></div>
+
+    <script>
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        document.getElementById('cart-count').textContent = cart.length;
+
+        document.querySelector('.menu-toggle').addEventListener('click', () => {
+            document.querySelector('.menu').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
+
+
+PORT=3000
+XML_URL=https://compshop.in.ua/yandex_market.xml?hash_tag=8526021c0faecb5cb6a0d6d716d93d0a&sales_notes=&product_ids=&label_ids=&exclude_fields=&html_description=0&yandex_cpa=&process_presence_sure=&export_lang=uk&group_ids=
+
+
+{
+  "name": "my-shop",
+  "version": "1.0.0",
+  "lockfileVersion": 3,
+  "requires": true,
+  "packages": {
+    "": {
+      "name": "my-shop",
+      "version": "1.0.0",
+      "dependencies": {
+        "axios": "^1.6.2",
+        "dotenv": "^16.3.1",
+        "express": "^4.18.2",
+        "node-cron": "^3.0.2",
+        "xml2js": "^0.6.2"
+      },
+      "devDependencies": {
+        "nodemon": "^3.0.2"
+      }
+    },
+    "node_modules/accepts": {
+      "version": "1.3.8",
+      "resolved": "https://registry.npmjs.org/accepts/-/accepts-1.3.8.tgz",
+      "integrity": "sha512-PYAthTa2m2VKxuvSD3DPC/Gy+U+sOA1LAuT8mkmRuvw+NACSaeXEQ+NHcVF7rONl6qcaxV3Uuemwawk+7+SJLw==",
+      "license": "MIT",
+      "dependencies": {
+        "mime-types": "~2.1.34",
+        "negotiator": "0.6.3"
+      },
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/anymatch": {
+      "version": "3.1.3",
+      "resolved": "https://registry.npmjs.org/anymatch/-/anymatch-3.1.3.tgz",
+      "integrity": "sha512-KMReFUr0B4t+D+OBkjR3KYqvocp2XaSzO55UcB6mgQMd3KbcE+mWTyvVV7D/zsdEbNnV6acZUutkiHQXvTr1Rw==",
+      "dev": true,
+      "license": "ISC",
+      "dependencies": {
+        "normalize-path": "^3.0.0",
+        "picomatch": "^2.0.4"
+      },
+      "engines": {
+        "node": ">= 8"
+      }
+    },
+    "node_modules/array-flatten": {
+      "version": "1.1.1",
+      "resolved": "https://registry.npmjs.org/array-flatten/-/array-flatten-1.1.1.tgz",
+      "integrity": "sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==",
+      "license": "MIT"
+    },
+    "node_modules/asynckit": {
+      "version": "0.4.0",
+      "resolved": "https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz",
+      "integrity": "sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==",
+      "license": "MIT"
+    },
+    "node_modules/axios": {
+      "version": "1.9.0",
+      "resolved": "https://registry.npmjs.org/axios/-/axios-1.9.0.tgz",
+      "integrity": "sha512-re4CqKTJaURpzbLHtIi6XpDv20/CnpXOtjRY5/CU32L8gU8ek9UIivcfvSWvmKEngmVbrUtPpdDwWDWL7DNHvg==",
+      "license": "MIT",
+      "dependencies": {
+        "follow-redirects": "^1.15.6",
+        "form-data": "^4.0.0",
+        "proxy-from-env": "^1.1.0"
+      }
+    },
+    "node_modules/balanced-match": {
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.2.tgz",
+      "integrity": "sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/binary-extensions": {
+      "version": "2.3.0",
+      "resolved": "https://registry.npmjs.org/binary-extensions/-/binary-extensions-2.3.0.tgz",
+      "integrity": "sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=8"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/sindresorhus"
+      }
+    },
+    "node_modules/body-parser": {
+      "version": "1.20.3",
+      "resolved": "https://registry.npmjs.org/body-parser/-/body-parser-1.20.3.tgz",
+      "integrity": "sha512-7rAxByjUMqQ3/bHJy7D6OGXvx/MMc4IqBn/X0fcM1QUcAItpZrBEYhWGem+tzXH90c+G01ypMcYJBO9Y30203g==",
+      "license": "MIT",
+      "dependencies": {
+        "bytes": "3.1.2",
+        "content-type": "~1.0.5",
+        "debug": "2.6.9",
+        "depd": "2.0.0",
+        "destroy": "1.2.0",
+        "http-errors": "2.0.0",
+        "iconv-lite": "0.4.24",
+        "on-finished": "2.4.1",
+        "qs": "6.13.0",
+        "raw-body": "2.5.2",
+        "type-is": "~1.6.18",
+        "unpipe": "1.0.0"
+      },
+      "engines": {
+        "node": ">= 0.8",
+        "npm": "1.2.8000 || >= 1.4.16"
+      }
+    },
+    "node_modules/brace-expansion": {
+      "version": "1.1.11",
+      "resolved": "https://registry.npmjs.org/brace-expansion/-/brace-expansion-1.1.11.tgz",
+      "integrity": "sha512-iCuPHDFgrHX7H2vEI/5xpz07zSHB00TpugqhmYtVmMO6518mCuRMoOYFldEBl0g187ufozdaHgWKcYFb61qGiA==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "balanced-match": "^1.0.0",
+        "concat-map": "0.0.1"
+      }
+    },
+    "node_modules/braces": {
+      "version": "3.0.3",
+      "resolved": "https://registry.npmjs.org/braces/-/braces-3.0.3.tgz",
+      "integrity": "sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "fill-range": "^7.1.1"
+      },
+      "engines": {
+        "node": ">=8"
+      }
+    },
+    "node_modules/bytes": {
+      "version": "3.1.2",
+      "resolved": "https://registry.npmjs.org/bytes/-/bytes-3.1.2.tgz",
+      "integrity": "sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/call-bind-apply-helpers": {
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/call-bind-apply-helpers/-/call-bind-apply-helpers-1.0.2.tgz",
+      "integrity": "sha512-Sp1ablJ0ivDkSzjcaJdxEunN5/XvksFJ2sMBFfq6x0ryhQV/2b/KwFe21cMpmHtPOSij8K99/wSfoEuTObmuMQ==",
+      "license": "MIT",
+      "dependencies": {
+        "es-errors": "^1.3.0",
+        "function-bind": "^1.1.2"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
+    "node_modules/call-bound": {
+      "version": "1.0.4",
+      "resolved": "https://registry.npmjs.org/call-bound/-/call-bound-1.0.4.tgz",
+      "integrity": "sha512-+ys997U96po4Kx/ABpBCqhA9EuxJaQWDQg7295H4hBphv3IZg0boBKuwYpt4YXp6MZ5AmZQnU/tyMTlRpaSejg==",
+      "license": "MIT",
+      "dependencies": {
+        "call-bind-apply-helpers": "^1.0.2",
+        "get-intrinsic": "^1.3.0"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/chokidar": {
+      "version": "3.6.0",
+      "resolved": "https://registry.npmjs.org/chokidar/-/chokidar-3.6.0.tgz",
+      "integrity": "sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "anymatch": "~3.1.2",
+        "braces": "~3.0.2",
+        "glob-parent": "~5.1.2",
+        "is-binary-path": "~2.1.0",
+        "is-glob": "~4.0.1",
+        "normalize-path": "~3.0.0",
+        "readdirp": "~3.6.0"
+      },
+      "engines": {
+        "node": ">= 8.10.0"
+      },
+      "funding": {
+        "url": "https://paulmillr.com/funding/"
+      },
+      "optionalDependencies": {
+        "fsevents": "~2.3.2"
+      }
+    },
+    "node_modules/combined-stream": {
+      "version": "1.0.8",
+      "resolved": "https://registry.npmjs.org/combined-stream/-/combined-stream-1.0.8.tgz",
+      "integrity": "sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==",
+      "license": "MIT",
+      "dependencies": {
+        "delayed-stream": "~1.0.0"
+      },
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/concat-map": {
+      "version": "0.0.1",
+      "resolved": "https://registry.npmjs.org/concat-map/-/concat-map-0.0.1.tgz",
+      "integrity": "sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/content-disposition": {
+      "version": "0.5.4",
+      "resolved": "https://registry.npmjs.org/content-disposition/-/content-disposition-0.5.4.tgz",
+      "integrity": "sha512-FveZTNuGw04cxlAiWbzi6zTAL/lhehaWbTtgluJh4/E95DqMwTmha3KZN1aAWA8cFIhHzMZUvLevkw5Rqk+tSQ==",
+      "license": "MIT",
+      "dependencies": {
+        "safe-buffer": "5.2.1"
+      },
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/content-type": {
+      "version": "1.0.5",
+      "resolved": "https://registry.npmjs.org/content-type/-/content-type-1.0.5.tgz",
+      "integrity": "sha512-nTjqfcBFEipKdXCv4YDQWCfmcLZKm81ldF0pAopTvyrFGVbcR6P/VAAd5G7N+0tTr8QqiU0tFadD6FK4NtJwOA==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/cookie": {
+      "version": "0.7.1",
+      "resolved": "https://registry.npmjs.org/cookie/-/cookie-0.7.1.tgz",
+      "integrity": "sha512-6DnInpx7SJ2AK3+CTUE/ZM0vWTUboZCegxhC2xiIydHR9jNuTAASBrfEpHhiGOZw/nX51bHt6YQl8jsGo4y/0w==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/cookie-signature": {
+      "version": "1.0.6",
+      "resolved": "https://registry.npmjs.org/cookie-signature/-/cookie-signature-1.0.6.tgz",
+      "integrity": "sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==",
+      "license": "MIT"
+    },
+    "node_modules/debug": {
+      "version": "2.6.9",
+      "resolved": "https://registry.npmjs.org/debug/-/debug-2.6.9.tgz",
+      "integrity": "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==",
+      "license": "MIT",
+      "dependencies": {
+        "ms": "2.0.0"
+      }
+    },
+    "node_modules/delayed-stream": {
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/delayed-stream/-/delayed-stream-1.0.0.tgz",
+      "integrity": "sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.4.0"
+      }
+    },
+    "node_modules/depd": {
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/depd/-/depd-2.0.0.tgz",
+      "integrity": "sha512-g7nH6P6dyDioJogAAGprGpCtVImJhpPk/roCzdb3fIh61/s/nPsfR6onyMwkCAR/OlC3yBC0lESvUoQEAssIrw==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/destroy": {
+      "version": "1.2.0",
+      "resolved": "https://registry.npmjs.org/destroy/-/destroy-1.2.0.tgz",
+      "integrity": "sha512-2sJGJTaXIIaR1w4iJSNoN0hnMY7Gpc/n8D4qSCJw8QqFWXf7cuAgnEHxBpweaVcPevC2l3KpjYCx3NypQQgaJg==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8",
+        "npm": "1.2.8000 || >= 1.4.16"
+      }
+    },
+    "node_modules/dotenv": {
+      "version": "16.5.0",
+      "resolved": "https://registry.npmjs.org/dotenv/-/dotenv-16.5.0.tgz",
+      "integrity": "sha512-m/C+AwOAr9/W1UOIZUo232ejMNnJAJtYQjUbHoNTBNTJSvqzzDh7vnrei3o3r3m9blf6ZoDkvcw0VmozNRFJxg==",
+      "license": "BSD-2-Clause",
+      "engines": {
+        "node": ">=12"
+      },
+      "funding": {
+        "url": "https://dotenvx.com"
+      }
+    },
+    "node_modules/dunder-proto": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/dunder-proto/-/dunder-proto-1.0.1.tgz",
+      "integrity": "sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==",
+      "license": "MIT",
+      "dependencies": {
+        "call-bind-apply-helpers": "^1.0.1",
+        "es-errors": "^1.3.0",
+        "gopd": "^1.2.0"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
+    "node_modules/ee-first": {
+      "version": "1.1.1",
+      "resolved": "https://registry.npmjs.org/ee-first/-/ee-first-1.1.1.tgz",
+      "integrity": "sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==",
+      "license": "MIT"
+    },
+    "node_modules/encodeurl": {
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/encodeurl/-/encodeurl-2.0.0.tgz",
+      "integrity": "sha512-Q0n9HRi4m6JuGIV1eFlmvJB7ZEVxu93IrMyiMsGC0lrMJMWzRgx6WGquyfQgZVb31vhGgXnfmPNNXmxnOkRBrg==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/es-define-property": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/es-define-property/-/es-define-property-1.0.1.tgz",
+      "integrity": "sha512-e3nRfgfUZ4rNGL232gUgX06QNyyez04KdjFrF+LTRoOXmrOgFKDg4BCdsjW8EnT69eqdYGmRpJwiPVYNrCaW3g==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
+    "node_modules/es-errors": {
+      "version": "1.3.0",
+      "resolved": "https://registry.npmjs.org/es-errors/-/es-errors-1.3.0.tgz",
+      "integrity": "sha512-Zf5H2Kxt2xjTvbJvP2ZWLEICxA6j+hAmMzIlypy4xcBg1vKVnx89Wy0GbS+kf5cwCVFFzdCFh2XSCFNULS6csw==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
+    "node_modules/es-object-atoms": {
+      "version": "1.1.1",
+      "resolved": "https://registry.npmjs.org/es-object-atoms/-/es-object-atoms-1.1.1.tgz",
+      "integrity": "sha512-FGgH2h8zKNim9ljj7dankFPcICIK9Cp5bm+c2gQSYePhpaG5+esrLODihIorn+Pe6FGJzWhXQotPv73jTaldXA==",
+      "license": "MIT",
+      "dependencies": {
+        "es-errors": "^1.3.0"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
+    "node_modules/es-set-tostringtag": {
+      "version": "2.1.0",
+      "resolved": "https://registry.npmjs.org/es-set-tostringtag/-/es-set-tostringtag-2.1.0.tgz",
+      "integrity": "sha512-j6vWzfrGVfyXxge+O0x5sh6cvxAog0a/4Rdd2K36zCMV5eJ+/+tOAngRO8cODMNWbVRdVlmGZQL2YS3yR8bIUA==",
+      "license": "MIT",
+      "dependencies": {
+        "es-errors": "^1.3.0",
+        "get-intrinsic": "^1.2.6",
+        "has-tostringtag": "^1.0.2",
+        "hasown": "^2.0.2"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
+    "node_modules/escape-html": {
+      "version": "1.0.3",
+      "resolved": "https://registry.npmjs.org/escape-html/-/escape-html-1.0.3.tgz",
+      "integrity": "sha512-NiSupZ4OeuGwr68lGIeym/ksIZMJodUGOSCZ/FSnTxcrekbvqrgdUxlJOMpijaKZVjAJrWrGs/6Jy8OMuyj9ow==",
+      "license": "MIT"
+    },
+    "node_modules/etag": {
+      "version": "1.8.1",
+      "resolved": "https://registry.npmjs.org/etag/-/etag-1.8.1.tgz",
+      "integrity": "sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/express": {
+      "version": "4.21.2",
+      "resolved": "https://registry.npmjs.org/express/-/express-4.21.2.tgz",
+      "integrity": "sha512-28HqgMZAmih1Czt9ny7qr6ek2qddF4FclbMzwhCREB6OFfH+rXAnuNCwo1/wFvrtbgsQDb4kSbX9de9lFbrXnA==",
+      "license": "MIT",
+      "dependencies": {
+        "accepts": "~1.3.8",
+        "array-flatten": "1.1.1",
+        "body-parser": "1.20.3",
+        "content-disposition": "0.5.4",
+        "content-type": "~1.0.4",
+        "cookie": "0.7.1",
+        "cookie-signature": "1.0.6",
+        "debug": "2.6.9",
+        "depd": "2.0.0",
+        "encodeurl": "~2.0.0",
+        "escape-html": "~1.0.3",
+        "etag": "~1.8.1",
+        "finalhandler": "1.3.1",
+        "fresh": "0.5.2",
+        "http-errors": "2.0.0",
+        "merge-descriptors": "1.0.3",
+        "methods": "~1.1.2",
+        "on-finished": "2.4.1",
+        "parseurl": "~1.3.3",
+        "path-to-regexp": "0.1.12",
+        "proxy-addr": "~2.0.7",
+        "qs": "6.13.0",
+        "range-parser": "~1.2.1",
+        "safe-buffer": "5.2.1",
+        "send": "0.19.0",
+        "serve-static": "1.16.2",
+        "setprototypeof": "1.2.0",
+        "statuses": "2.0.1",
+        "type-is": "~1.6.18",
+        "utils-merge": "1.0.1",
+        "vary": "~1.1.2"
+      },
+      "engines": {
+        "node": ">= 0.10.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/express"
+      }
+    },
+    "node_modules/fill-range": {
+      "version": "7.1.1",
+      "resolved": "https://registry.npmjs.org/fill-range/-/fill-range-7.1.1.tgz",
+      "integrity": "sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "to-regex-range": "^5.0.1"
+      },
+      "engines": {
+        "node": ">=8"
+      }
+    },
+    "node_modules/finalhandler": {
+      "version": "1.3.1",
+      "resolved": "https://registry.npmjs.org/finalhandler/-/finalhandler-1.3.1.tgz",
+      "integrity": "sha512-6BN9trH7bp3qvnrRyzsBz+g3lZxTNZTbVO2EV1CS0WIcDbawYVdYvGflME/9QP0h0pYlCDBCTjYa9nZzMDpyxQ==",
+      "license": "MIT",
+      "dependencies": {
+        "debug": "2.6.9",
+        "encodeurl": "~2.0.0",
+        "escape-html": "~1.0.3",
+        "on-finished": "2.4.1",
+        "parseurl": "~1.3.3",
+        "statuses": "2.0.1",
+        "unpipe": "~1.0.0"
+      },
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/follow-redirects": {
+      "version": "1.15.9",
+      "resolved": "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.9.tgz",
+      "integrity": "sha512-gew4GsXizNgdoRyqmyfMHyAmXsZDk6mHkSxZFCzW9gwlbtOW44CDtYavM+y+72qD/Vq2l550kMF52DT8fOLJqQ==",
+      "funding": [
+        {
+          "type": "individual",
+          "url": "https://github.com/sponsors/RubenVerborgh"
+        }
+      ],
+      "license": "MIT",
+      "engines": {
+        "node": ">=4.0"
+      },
+      "peerDependenciesMeta": {
+        "debug": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/form-data": {
+      "version": "4.0.2",
+      "resolved": "https://registry.npmjs.org/form-data/-/form-data-4.0.2.tgz",
+      "integrity": "sha512-hGfm/slu0ZabnNt4oaRZ6uREyfCj6P4fT/n6A1rGV+Z0VdGXjfOhVUpkn6qVQONHGIFwmveGXyDs75+nr6FM8w==",
+      "license": "MIT",
+      "dependencies": {
+        "asynckit": "^0.4.0",
+        "combined-stream": "^1.0.8",
+        "es-set-tostringtag": "^2.1.0",
+        "mime-types": "^2.1.12"
+      },
+      "engines": {
+        "node": ">= 6"
+      }
+    },
+    "node_modules/forwarded": {
+      "version": "0.2.0",
+      "resolved": "https://registry.npmjs.org/forwarded/-/forwarded-0.2.0.tgz",
+      "integrity": "sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/fresh": {
+      "version": "0.5.2",
+      "resolved": "https://registry.npmjs.org/fresh/-/fresh-0.5.2.tgz",
+      "integrity": "sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/fsevents": {
+      "version": "2.3.3",
+      "resolved": "https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz",
+      "integrity": "sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==",
+      "dev": true,
+      "hasInstallScript": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "darwin"
+      ],
+      "engines": {
+        "node": "^8.16.0 || ^10.6.0 || >=11.0.0"
+      }
+    },
+    "node_modules/function-bind": {
+      "version": "1.1.2",
+      "resolved": "https://registry.npmjs.org/function-bind/-/function-bind-1.1.2.tgz",
+      "integrity": "sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==",
+      "license": "MIT",
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/get-intrinsic": {
+      "version": "1.3.0",
+      "resolved": "https://registry.npmjs.org/get-intrinsic/-/get-intrinsic-1.3.0.tgz",
+      "integrity": "sha512-9fSjSaos/fRIVIp+xSJlE6lfwhES7LNtKaCBIamHsjr2na1BiABJPo0mOjjz8GJDURarmCPGqaiVg5mfjb98CQ==",
+      "license": "MIT",
+      "dependencies": {
+        "call-bind-apply-helpers": "^1.0.2",
+        "es-define-property": "^1.0.1",
+        "es-errors": "^1.3.0",
+        "es-object-atoms": "^1.1.1",
+        "function-bind": "^1.1.2",
+        "get-proto": "^1.0.1",
+        "gopd": "^1.2.0",
+        "has-symbols": "^1.1.0",
+        "hasown": "^2.0.2",
+        "math-intrinsics": "^1.1.0"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/get-proto": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/get-proto/-/get-proto-1.0.1.tgz",
+      "integrity": "sha512-sTSfBjoXBp89JvIKIefqw7U2CCebsc74kiY6awiGogKtoSGbgjYE/G/+l9sF3MWFPNc9IcoOC4ODfKHfxFmp0g==",
+      "license": "MIT",
+      "dependencies": {
+        "dunder-proto": "^1.0.1",
+        "es-object-atoms": "^1.0.0"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
+    "node_modules/glob-parent": {
+      "version": "5.1.2",
+      "resolved": "https://registry.npmjs.org/glob-parent/-/glob-parent-5.1.2.tgz",
+      "integrity": "sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==",
+      "dev": true,
+      "license": "ISC",
+      "dependencies": {
+        "is-glob": "^4.0.1"
+      },
+      "engines": {
+        "node": ">= 6"
+      }
+    },
+    "node_modules/gopd": {
+      "version": "1.2.0",
+      "resolved": "https://registry.npmjs.org/gopd/-/gopd-1.2.0.tgz",
+      "integrity": "sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/has-flag": {
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/has-flag/-/has-flag-3.0.0.tgz",
+      "integrity": "sha512-sKJf1+ceQBr4SMkvQnBDNDtf4TXpVhVGateu0t918bl30FnbE2m4vNLX+VWe/dpjlb+HugGYzW7uQXH98HPEYw==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=4"
+      }
+    },
+    "node_modules/has-symbols": {
+      "version": "1.1.0",
+      "resolved": "https://registry.npmjs.org/has-symbols/-/has-symbols-1.1.0.tgz",
+      "integrity": "sha512-1cDNdwJ2Jaohmb3sg4OmKaMBwuC48sYni5HUw2DvsC8LjGTLK9h+eb1X6RyuOHe4hT0ULCW68iomhjUoKUqlPQ==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/has-tostringtag": {
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/has-tostringtag/-/has-tostringtag-1.0.2.tgz",
+      "integrity": "sha512-NqADB8VjPFLM2V0VvHUewwwsw0ZWBaIdgo+ieHtK3hasLz4qeCRjYcqfB6AQrBggRKppKF8L52/VqdVsO47Dlw==",
+      "license": "MIT",
+      "dependencies": {
+        "has-symbols": "^1.0.3"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/hasown": {
+      "version": "2.0.2",
+      "resolved": "https://registry.npmjs.org/hasown/-/hasown-2.0.2.tgz",
+      "integrity": "sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==",
+      "license": "MIT",
+      "dependencies": {
+        "function-bind": "^1.1.2"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
+    "node_modules/http-errors": {
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/http-errors/-/http-errors-2.0.0.tgz",
+      "integrity": "sha512-FtwrG/euBzaEjYeRqOgly7G0qviiXoJWnvEH2Z1plBdXgbyjv34pHTSb9zoeHMyDy33+DWy5Wt9Wo+TURtOYSQ==",
+      "license": "MIT",
+      "dependencies": {
+        "depd": "2.0.0",
+        "inherits": "2.0.4",
+        "setprototypeof": "1.2.0",
+        "statuses": "2.0.1",
+        "toidentifier": "1.0.1"
+      },
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/iconv-lite": {
+      "version": "0.4.24",
+      "resolved": "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.4.24.tgz",
+      "integrity": "sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==",
+      "license": "MIT",
+      "dependencies": {
+        "safer-buffer": ">= 2.1.2 < 3"
+      },
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/ignore-by-default": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/ignore-by-default/-/ignore-by-default-1.0.1.tgz",
+      "integrity": "sha512-Ius2VYcGNk7T90CppJqcIkS5ooHUZyIQK+ClZfMfMNFEF9VSE73Fq+906u/CWu92x4gzZMWOwfFYckPObzdEbA==",
+      "dev": true,
+      "license": "ISC"
+    },
+    "node_modules/inherits": {
+      "version": "2.0.4",
+      "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.4.tgz",
+      "integrity": "sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==",
+      "license": "ISC"
+    },
+    "node_modules/ipaddr.js": {
+      "version": "1.9.1",
+      "resolved": "https://registry.npmjs.org/ipaddr.js/-/ipaddr.js-1.9.1.tgz",
+      "integrity": "sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.10"
+      }
+    },
+    "node_modules/is-binary-path": {
+      "version": "2.1.0",
+      "resolved": "https://registry.npmjs.org/is-binary-path/-/is-binary-path-2.1.0.tgz",
+      "integrity": "sha512-ZMERYes6pDydyuGidse7OsHxtbI7WVeUEozgR/g7rd0xUimYNlvZRE/K2MgZTjWy725IfelLeVcEM97mmtRGXw==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "binary-extensions": "^2.0.0"
+      },
+      "engines": {
+        "node": ">=8"
+      }
+    },
+    "node_modules/is-extglob": {
+      "version": "2.1.1",
+      "resolved": "https://registry.npmjs.org/is-extglob/-/is-extglob-2.1.1.tgz",
+      "integrity": "sha512-SbKbANkN603Vi4jEZv49LeVJMn4yGwsbzZworEoyEiutsN3nJYdbO36zfhGJ6QEDpOZIFkDtnq5JRxmvl3jsoQ==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/is-glob": {
+      "version": "4.0.3",
+      "resolved": "https://registry.npmjs.org/is-glob/-/is-glob-4.0.3.tgz",
+      "integrity": "sha512-xelSayHH36ZgE7ZWhli7pW34hNbNl8Ojv5KVmkJD4hBdD3th8Tfk9vYasLM+mXWOZhFkgZfxhLSnrwRr4elSSg==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "is-extglob": "^2.1.1"
+      },
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/is-number": {
+      "version": "7.0.0",
+      "resolved": "https://registry.npmjs.org/is-number/-/is-number-7.0.0.tgz",
+      "integrity": "sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.12.0"
+      }
+    },
+    "node_modules/math-intrinsics": {
+      "version": "1.1.0",
+      "resolved": "https://registry.npmjs.org/math-intrinsics/-/math-intrinsics-1.1.0.tgz",
+      "integrity": "sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
+    "node_modules/media-typer": {
+      "version": "0.3.0",
+      "resolved": "https://registry.npmjs.org/media-typer/-/media-typer-0.3.0.tgz",
+      "integrity": "sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/merge-descriptors": {
+      "version": "1.0.3",
+      "resolved": "https://registry.npmjs.org/merge-descriptors/-/merge-descriptors-1.0.3.tgz",
+      "integrity": "sha512-gaNvAS7TZ897/rVaZ0nMtAyxNyi/pdbjbAwUpFQpN70GqnVfOiXpeUUMKRBmzXaSQ8DdTX4/0ms62r2K+hE6mQ==",
+      "license": "MIT",
+      "funding": {
+        "url": "https://github.com/sponsors/sindresorhus"
+      }
+    },
+    "node_modules/methods": {
+      "version": "1.1.2",
+      "resolved": "https://registry.npmjs.org/methods/-/methods-1.1.2.tgz",
+      "integrity": "sha512-iclAHeNqNm68zFtnZ0e+1L2yUIdvzNoauKU4WBA3VvH/vPFieF7qfRlwUZU+DA9P9bPXIS90ulxoUoCH23sV2w==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/mime": {
+      "version": "1.6.0",
+      "resolved": "https://registry.npmjs.org/mime/-/mime-1.6.0.tgz",
+      "integrity": "sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==",
+      "license": "MIT",
+      "bin": {
+        "mime": "cli.js"
+      },
+      "engines": {
+        "node": ">=4"
+      }
+    },
+    "node_modules/mime-db": {
+      "version": "1.52.0",
+      "resolved": "https://registry.npmjs.org/mime-db/-/mime-db-1.52.0.tgz",
+      "integrity": "sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/mime-types": {
+      "version": "2.1.35",
+      "resolved": "https://registry.npmjs.org/mime-types/-/mime-types-2.1.35.tgz",
+      "integrity": "sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==",
+      "license": "MIT",
+      "dependencies": {
+        "mime-db": "1.52.0"
+      },
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/minimatch": {
+      "version": "3.1.2",
+      "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.1.2.tgz",
+      "integrity": "sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==",
+      "dev": true,
+      "license": "ISC",
+      "dependencies": {
+        "brace-expansion": "^1.1.7"
+      },
+      "engines": {
+        "node": "*"
+      }
+    },
+    "node_modules/ms": {
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/ms/-/ms-2.0.0.tgz",
+      "integrity": "sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==",
+      "license": "MIT"
+    },
+    "node_modules/negotiator": {
+      "version": "0.6.3",
+      "resolved": "https://registry.npmjs.org/negotiator/-/negotiator-0.6.3.tgz",
+      "integrity": "sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/node-cron": {
+      "version": "3.0.3",
+      "resolved": "https://registry.npmjs.org/node-cron/-/node-cron-3.0.3.tgz",
+      "integrity": "sha512-dOal67//nohNgYWb+nWmg5dkFdIwDm8EpeGYMekPMrngV3637lqnX0lbUcCtgibHTz6SEz7DAIjKvKDFYCnO1A==",
+      "license": "ISC",
+      "dependencies": {
+        "uuid": "8.3.2"
+      },
+      "engines": {
+        "node": ">=6.0.0"
+      }
+    },
+    "node_modules/nodemon": {
+      "version": "3.1.10",
+      "resolved": "https://registry.npmjs.org/nodemon/-/nodemon-3.1.10.tgz",
+      "integrity": "sha512-WDjw3pJ0/0jMFmyNDp3gvY2YizjLmmOUQo6DEBY+JgdvW/yQ9mEeSw6H5ythl5Ny2ytb7f9C2nIbjSxMNzbJXw==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "chokidar": "^3.5.2",
+        "debug": "^4",
+        "ignore-by-default": "^1.0.1",
+        "minimatch": "^3.1.2",
+        "pstree.remy": "^1.1.8",
+        "semver": "^7.5.3",
+        "simple-update-notifier": "^2.0.0",
+        "supports-color": "^5.5.0",
+        "touch": "^3.1.0",
+        "undefsafe": "^2.0.5"
+      },
+      "bin": {
+        "nodemon": "bin/nodemon.js"
+      },
+      "engines": {
+        "node": ">=10"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/nodemon"
+      }
+    },
+    "node_modules/nodemon/node_modules/debug": {
+      "version": "4.4.1",
+      "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.1.tgz",
+      "integrity": "sha512-KcKCqiftBJcZr++7ykoDIEwSa3XWowTfNPo92BYxjXiyYEVrUQh2aLyhxBCwww+heortUFxEJYcRzosstTEBYQ==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "ms": "^2.1.3"
+      },
+      "engines": {
+        "node": ">=6.0"
+      },
+      "peerDependenciesMeta": {
+        "supports-color": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/nodemon/node_modules/ms": {
+      "version": "2.1.3",
+      "resolved": "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz",
+      "integrity": "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/normalize-path": {
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/normalize-path/-/normalize-path-3.0.0.tgz",
+      "integrity": "sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/object-inspect": {
+      "version": "1.13.4",
+      "resolved": "https://registry.npmjs.org/object-inspect/-/object-inspect-1.13.4.tgz",
+      "integrity": "sha512-W67iLl4J2EXEGTbfeHCffrjDfitvLANg0UlX3wFUUSTx92KXRFegMHUVgSqE+wvhAbi4WqjGg9czysTV2Epbew==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/on-finished": {
+      "version": "2.4.1",
+      "resolved": "https://registry.npmjs.org/on-finished/-/on-finished-2.4.1.tgz",
+      "integrity": "sha512-oVlzkg3ENAhCk2zdv7IJwd/QUD4z2RxRwpkcGY8psCVcCYZNq4wYnVWALHM+brtuJjePWiYF/ClmuDr8Ch5+kg==",
+      "license": "MIT",
+      "dependencies": {
+        "ee-first": "1.1.1"
+      },
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/parseurl": {
+      "version": "1.3.3",
+      "resolved": "https://registry.npmjs.org/parseurl/-/parseurl-1.3.3.tgz",
+      "integrity": "sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/path-to-regexp": {
+      "version": "0.1.12",
+      "resolved": "https://registry.npmjs.org/path-to-regexp/-/path-to-regexp-0.1.12.tgz",
+      "integrity": "sha512-RA1GjUVMnvYFxuqovrEqZoxxW5NUZqbwKtYz/Tt7nXerk0LbLblQmrsgdeOxV5SFHf0UDggjS/bSeOZwt1pmEQ==",
+      "license": "MIT"
+    },
+    "node_modules/picomatch": {
+      "version": "2.3.1",
+      "resolved": "https://registry.npmjs.org/picomatch/-/picomatch-2.3.1.tgz",
+      "integrity": "sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=8.6"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/jonschlinkert"
+      }
+    },
+    "node_modules/proxy-addr": {
+      "version": "2.0.7",
+      "resolved": "https://registry.npmjs.org/proxy-addr/-/proxy-addr-2.0.7.tgz",
+      "integrity": "sha512-llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg==",
+      "license": "MIT",
+      "dependencies": {
+        "forwarded": "0.2.0",
+        "ipaddr.js": "1.9.1"
+      },
+      "engines": {
+        "node": ">= 0.10"
+      }
+    },
+    "node_modules/proxy-from-env": {
+      "version": "1.1.0",
+      "resolved": "https://registry.npmjs.org/proxy-from-env/-/proxy-from-env-1.1.0.tgz",
+      "integrity": "sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==",
+      "license": "MIT"
+    },
+    "node_modules/pstree.remy": {
+      "version": "1.1.8",
+      "resolved": "https://registry.npmjs.org/pstree.remy/-/pstree.remy-1.1.8.tgz",
+      "integrity": "sha512-77DZwxQmxKnu3aR542U+X8FypNzbfJ+C5XQDk3uWjWxn6151aIMGthWYRXTqT1E5oJvg+ljaa2OJi+VfvCOQ8w==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/qs": {
+      "version": "6.13.0",
+      "resolved": "https://registry.npmjs.org/qs/-/qs-6.13.0.tgz",
+      "integrity": "sha512-+38qI9SOr8tfZ4QmJNplMUxqjbe7LKvvZgWdExBOmd+egZTtjLB67Gu0HRX3u/XOq7UU2Nx6nsjvS16Z9uwfpg==",
+      "license": "BSD-3-Clause",
+      "dependencies": {
+        "side-channel": "^1.0.6"
+      },
+      "engines": {
+        "node": ">=0.6"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/range-parser": {
+      "version": "1.2.1",
+      "resolved": "https://registry.npmjs.org/range-parser/-/range-parser-1.2.1.tgz",
+      "integrity": "sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/raw-body": {
+      "version": "2.5.2",
+      "resolved": "https://registry.npmjs.org/raw-body/-/raw-body-2.5.2.tgz",
+      "integrity": "sha512-8zGqypfENjCIqGhgXToC8aB2r7YrBX+AQAfIPs/Mlk+BtPTztOvTS01NRW/3Eh60J+a48lt8qsCzirQ6loCVfA==",
+      "license": "MIT",
+      "dependencies": {
+        "bytes": "3.1.2",
+        "http-errors": "2.0.0",
+        "iconv-lite": "0.4.24",
+        "unpipe": "1.0.0"
+      },
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/readdirp": {
+      "version": "3.6.0",
+      "resolved": "https://registry.npmjs.org/readdirp/-/readdirp-3.6.0.tgz",
+      "integrity": "sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "picomatch": "^2.2.1"
+      },
+      "engines": {
+        "node": ">=8.10.0"
+      }
+    },
+    "node_modules/safe-buffer": {
+      "version": "5.2.1",
+      "resolved": "https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.2.1.tgz",
+      "integrity": "sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==",
+      "funding": [
+        {
+          "type": "github",
+          "url": "https://github.com/sponsors/feross"
+        },
+        {
+          "type": "patreon",
+          "url": "https://www.patreon.com/feross"
+        },
+        {
+          "type": "consulting",
+          "url": "https://feross.org/support"
+        }
+      ],
+      "license": "MIT"
+    },
+    "node_modules/safer-buffer": {
+      "version": "2.1.2",
+      "resolved": "https://registry.npmjs.org/safer-buffer/-/safer-buffer-2.1.2.tgz",
+      "integrity": "sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==",
+      "license": "MIT"
+    },
+    "node_modules/sax": {
+      "version": "1.4.1",
+      "resolved": "https://registry.npmjs.org/sax/-/sax-1.4.1.tgz",
+      "integrity": "sha512-+aWOz7yVScEGoKNd4PA10LZ8sk0A/z5+nXQG5giUO5rprX9jgYsTdov9qCchZiPIZezbZH+jRut8nPodFAX4Jg==",
+      "license": "ISC"
+    },
+    "node_modules/semver": {
+      "version": "7.7.2",
+      "resolved": "https://registry.npmjs.org/semver/-/semver-7.7.2.tgz",
+      "integrity": "sha512-RF0Fw+rO5AMf9MAyaRXI4AV0Ulj5lMHqVxxdSgiVbixSCXoEmmX/jk0CuJw4+3SqroYO9VoUh+HcuJivvtJemA==",
+      "dev": true,
+      "license": "ISC",
+      "bin": {
+        "semver": "bin/semver.js"
+      },
+      "engines": {
+        "node": ">=10"
+      }
+    },
+    "node_modules/send": {
+      "version": "0.19.0",
+      "resolved": "https://registry.npmjs.org/send/-/send-0.19.0.tgz",
+      "integrity": "sha512-dW41u5VfLXu8SJh5bwRmyYUbAoSB3c9uQh6L8h/KtsFREPWpbX1lrljJo186Jc4nmci/sGUZ9a0a0J2zgfq2hw==",
+      "license": "MIT",
+      "dependencies": {
+        "debug": "2.6.9",
+        "depd": "2.0.0",
+        "destroy": "1.2.0",
+        "encodeurl": "~1.0.2",
+        "escape-html": "~1.0.3",
+        "etag": "~1.8.1",
+        "fresh": "0.5.2",
+        "http-errors": "2.0.0",
+        "mime": "1.6.0",
+        "ms": "2.1.3",
+        "on-finished": "2.4.1",
+        "range-parser": "~1.2.1",
+        "statuses": "2.0.1"
+      },
+      "engines": {
+        "node": ">= 0.8.0"
+      }
+    },
+    "node_modules/send/node_modules/encodeurl": {
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/encodeurl/-/encodeurl-1.0.2.tgz",
+      "integrity": "sha512-TPJXq8JqFaVYm2CWmPvnP2Iyo4ZSM7/QKcSmuMLDObfpH5fi7RUGmd/rTDf+rut/saiDiQEeVTNgAmJEdAOx0w==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/send/node_modules/ms": {
+      "version": "2.1.3",
+      "resolved": "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz",
+      "integrity": "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==",
+      "license": "MIT"
+    },
+    "node_modules/serve-static": {
+      "version": "1.16.2",
+      "resolved": "https://registry.npmjs.org/serve-static/-/serve-static-1.16.2.tgz",
+      "integrity": "sha512-VqpjJZKadQB/PEbEwvFdO43Ax5dFBZ2UECszz8bQ7pi7wt//PWe1P6MN7eCnjsatYtBT6EuiClbjSWP2WrIoTw==",
+      "license": "MIT",
+      "dependencies": {
+        "encodeurl": "~2.0.0",
+        "escape-html": "~1.0.3",
+        "parseurl": "~1.3.3",
+        "send": "0.19.0"
+      },
+      "engines": {
+        "node": ">= 0.8.0"
+      }
+    },
+    "node_modules/setprototypeof": {
+      "version": "1.2.0",
+      "resolved": "https://registry.npmjs.org/setprototypeof/-/setprototypeof-1.2.0.tgz",
+      "integrity": "sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==",
+      "license": "ISC"
+    },
+    "node_modules/side-channel": {
+      "version": "1.1.0",
+      "resolved": "https://registry.npmjs.org/side-channel/-/side-channel-1.1.0.tgz",
+      "integrity": "sha512-ZX99e6tRweoUXqR+VBrslhda51Nh5MTQwou5tnUDgbtyM0dBgmhEDtWGP/xbKn6hqfPRHujUNwz5fy/wbbhnpw==",
+      "license": "MIT",
+      "dependencies": {
+        "es-errors": "^1.3.0",
+        "object-inspect": "^1.13.3",
+        "side-channel-list": "^1.0.0",
+        "side-channel-map": "^1.0.1",
+        "side-channel-weakmap": "^1.0.2"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/side-channel-list": {
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/side-channel-list/-/side-channel-list-1.0.0.tgz",
+      "integrity": "sha512-FCLHtRD/gnpCiCHEiJLOwdmFP+wzCmDEkc9y7NsYxeF4u7Btsn1ZuwgwJGxImImHicJArLP4R0yX4c2KCrMrTA==",
+      "license": "MIT",
+      "dependencies": {
+        "es-errors": "^1.3.0",
+        "object-inspect": "^1.13.3"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/side-channel-map": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/side-channel-map/-/side-channel-map-1.0.1.tgz",
+      "integrity": "sha512-VCjCNfgMsby3tTdo02nbjtM/ewra6jPHmpThenkTYh8pG9ucZ/1P8So4u4FGBek/BjpOVsDCMoLA/iuBKIFXRA==",
+      "license": "MIT",
+      "dependencies": {
+        "call-bound": "^1.0.2",
+        "es-errors": "^1.3.0",
+        "get-intrinsic": "^1.2.5",
+        "object-inspect": "^1.13.3"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/side-channel-weakmap": {
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/side-channel-weakmap/-/side-channel-weakmap-1.0.2.tgz",
+      "integrity": "sha512-WPS/HvHQTYnHisLo9McqBHOJk2FkHO/tlpvldyrnem4aeQp4hai3gythswg6p01oSoTl58rcpiFAjF2br2Ak2A==",
+      "license": "MIT",
+      "dependencies": {
+        "call-bound": "^1.0.2",
+        "es-errors": "^1.3.0",
+        "get-intrinsic": "^1.2.5",
+        "object-inspect": "^1.13.3",
+        "side-channel-map": "^1.0.1"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/simple-update-notifier": {
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/simple-update-notifier/-/simple-update-notifier-2.0.0.tgz",
+      "integrity": "sha512-a2B9Y0KlNXl9u/vsW6sTIu9vGEpfKu2wRV6l1H3XEas/0gUIzGzBoP/IouTcUQbm9JWZLH3COxyn03TYlFax6w==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "semver": "^7.5.3"
+      },
+      "engines": {
+        "node": ">=10"
+      }
+    },
+    "node_modules/statuses": {
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/statuses/-/statuses-2.0.1.tgz",
+      "integrity": "sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/supports-color": {
+      "version": "5.5.0",
+      "resolved": "https://registry.npmjs.org/supports-color/-/supports-color-5.5.0.tgz",
+      "integrity": "sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "has-flag": "^3.0.0"
+      },
+      "engines": {
+        "node": ">=4"
+      }
+    },
+    "node_modules/to-regex-range": {
+      "version": "5.0.1",
+      "resolved": "https://registry.npmjs.org/to-regex-range/-/to-regex-range-5.0.1.tgz",
+      "integrity": "sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "is-number": "^7.0.0"
+      },
+      "engines": {
+        "node": ">=8.0"
+      }
+    },
+    "node_modules/toidentifier": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/toidentifier/-/toidentifier-1.0.1.tgz",
+      "integrity": "sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.6"
+      }
+    },
+    "node_modules/touch": {
+      "version": "3.1.1",
+      "resolved": "https://registry.npmjs.org/touch/-/touch-3.1.1.tgz",
+      "integrity": "sha512-r0eojU4bI8MnHr8c5bNo7lJDdI2qXlWWJk6a9EAFG7vbhTjElYhBVS3/miuE0uOuoLdb8Mc/rVfsmm6eo5o9GA==",
+      "dev": true,
+      "license": "ISC",
+      "bin": {
+        "nodetouch": "bin/nodetouch.js"
+      }
+    },
+    "node_modules/type-is": {
+      "version": "1.6.18",
+      "resolved": "https://registry.npmjs.org/type-is/-/type-is-1.6.18.tgz",
+      "integrity": "sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==",
+      "license": "MIT",
+      "dependencies": {
+        "media-typer": "0.3.0",
+        "mime-types": "~2.1.24"
+      },
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/undefsafe": {
+      "version": "2.0.5",
+      "resolved": "https://registry.npmjs.org/undefsafe/-/undefsafe-2.0.5.tgz",
+      "integrity": "sha512-WxONCrssBM8TSPRqN5EmsjVrsv4A8X12J4ArBiiayv3DyyG3ZlIg6yysuuSYdZsVz3TKcTg2fd//Ujd4CHV1iA==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/unpipe": {
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/unpipe/-/unpipe-1.0.0.tgz",
+      "integrity": "sha512-pjy2bYhSsufwWlKwPc+l3cN7+wuJlK6uz0YdJEOlQDbl6jo/YlPi4mb8agUkVC8BF7V8NuzeyPNqRksA3hztKQ==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/utils-merge": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.1.tgz",
+      "integrity": "sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.4.0"
+      }
+    },
+    "node_modules/uuid": {
+      "version": "8.3.2",
+      "resolved": "https://registry.npmjs.org/uuid/-/uuid-8.3.2.tgz",
+      "integrity": "sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==",
+      "license": "MIT",
+      "bin": {
+        "uuid": "dist/bin/uuid"
+      }
+    },
+    "node_modules/vary": {
+      "version": "1.1.2",
+      "resolved": "https://registry.npmjs.org/vary/-/vary-1.1.2.tgz",
+      "integrity": "sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/xml2js": {
+      "version": "0.6.2",
+      "resolved": "https://registry.npmjs.org/xml2js/-/xml2js-0.6.2.tgz",
+      "integrity": "sha512-T4rieHaC1EXcES0Kxxj4JWgaUQHDk+qwHcYOCFHfiwKz7tOVPLq7Hjq9dM1WCMhylqMEfP7hMcOIChvotiZegA==",
+      "license": "MIT",
+      "dependencies": {
+        "sax": ">=0.6.0",
+        "xmlbuilder": "~11.0.0"
+      },
+      "engines": {
+        "node": ">=4.0.0"
+      }
+    },
+    "node_modules/xmlbuilder": {
+      "version": "11.0.1",
+      "resolved": "https://registry.npmjs.org/xmlbuilder/-/xmlbuilder-11.0.1.tgz",
+      "integrity": "sha512-fDlsI/kFEx7gLvbecc0/ohLG50fugQp8ryHzMTuW9vSa1GJ0XYWKnhsUx7oie3G98+r56aTQIUB4kht42R3JvA==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=4.0"
+      }
+    }
+  }
+}
+
+
+
+{
+  "name": "my-shop",
+  "version": "1.0.0",
+  "description": "Інтернет-магазин з автоматичним оновленням",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.2",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "node-cron": "^3.0.2",
+    "xml2js": "^0.6.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
+
+
+require('dotenv').config();
+const express = require('express');
+const path = require('path');
+const axios = require('axios');
+const xml2js = require('xml2js');
+const cron = require('node-cron');
+const fs = require('fs').promises;
+const { existsSync } = require('fs');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+const XML_URL = process.env.XML_URL;
+
+// Перевірка URL
+if (!XML_URL || !XML_URL.startsWith('http')) {
+    console.error('Помилка: Некоректний URL для XML. Перевірте .env файл');
+    process.exit(1);
+}
+
+// Middleware
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
+
+// Кеш даних
+let cachedProducts = [];
+let cachedCategories = [];
+let cachedSubCategories = {};
+let lastUpdate = null;
+
+// Основні категорії
+const mainCategories = {
+    'Портативна техніка': [
+        'Ноутбуки', 'Планшетні комп’ютери', 'Мобільні телефони смартфони', 'Електронні книги (Пристрої)',
+        'Смарт-годинники', 'Портативні зарядні пристрої', 'Павербанки', 'Чохли для планшетів, електронних книг',
+        'Чохли для телефонів', 'Захисні плівки та скло для портативних пристроїв', 'Сумки і рюкзаки для ноутбуків',
+        'Підставки для ноутбуків', 'Зарядні пристрої для ноутбуків', 'Зарядні пристрої для фото-, відеокамер'
+    ],
+    'Комп’ютерна техніка': [
+        'Системні блоки', 'Монітори', 'Веб камери', 'Принтери, сканери, бфп', 'Комп’ютерні миші і клавіатури',
+        'Акустичні системи', 'Навушники і гарнітури', 'Мікрофони', 'Джойстіки та ігрові маніпулятори',
+        'Килимки для миші', 'Джерела безперебійного живлення', 'Стабілізатори напруги'
+    ],
+    'Комплектуючі для ПК': [
+        'Процесори', 'Відеокарти', 'Материнські плати', 'Модулі пам’яті', 'Внутрішні та зовнішні жорсткі диски, HDD, SSD',
+        'Корпуси до комп’ютерів', 'Блоки живлення до комп’ютерів', 'Кулера і системи охолодження',
+        'Звукові карти', 'Мережеві карти', 'Wi-fi адаптери', 'Термопрокладки й термопаста', 'Підставка для відеокарти'
+    ],
+    'Мережеве обладнання': [
+        'Маршрутизатори', 'Комутатори', 'Точки доступу', 'Патч панелі', 'Патч-корди', 'Кабель для систем зв’язку',
+        'Мережеві коннектори, модулі і роз’єми', 'Оптичні конвертори', 'Модулі GBIC та SFP', 'Монтажні шафи',
+        'Шафи монтажні', 'IP-, skype- телефони', 'Камери відеоспостереження'
+    ],
+    'Побутова техніка': [
+        'Мікрохвильові печі', 'Праски', 'Фени для волосся', 'Блендери', 'Електрочайники', 'Кавоварки/Кавомашини',
+        'Кавомолки', 'Електричні м’ясорубки', 'Міксери', 'Мультиварки', 'Плити настільні', 'Кухонні комбайни/машини/подрібнювачі',
+        'Соковитискачі', 'Сушарки/Дегідратори', 'Тостери', 'Роботи-пилососи', 'Кліматична техніка',
+        'Інфрачервоні і каталітичні обігрівачі', 'Побутові масляні обігрівачі', 'Конвектори', 'Зволожувачі та очищувачі повітря',
+        'Побутові вбудовані духові шафи', 'Вбудовані варильні поверхні', 'Кухонні витяжки', 'Грилі і барбекю побутові електричні'
+    ],
+    'Автотовари': [
+        'Авто-, мото', 'Аксесуари для авто', 'Автомобільні електронні аксесуари', 'Відеореєстратори автомобільні',
+        'GPS-навігатори', 'Автомобільні інвертори', 'Автохолодильники', 'Автомобільні пускозарядні пристрої',
+        'Автомобільні щітки та скребки', 'Автомобільні кріплення', 'Автоакустика'
+    ],
+    'Аксесуари для техніки': [
+        'Кабелі для електроніки', 'Подовжувачі електричні', 'USB хаби', 'Карти пам’яті', 'USB накопичувачі',
+        'Кардрідери', 'DVD, BD і CD диски', 'Оптичні приводи', 'Наклейки на клавіатуру', 'Bluetooth-адаптери',
+        'Акумулятори загального призначення', 'Зарядні пристрої для акумуляторів', 'Батарейки'
+    ],
+    'Офісна техніка та витратні матеріали': [
+        'Офісне ПЗ', 'Операційні системи та утиліти', 'Картриджі для принтерів та БФП', 'Тонер і чорнила для друку',
+        'Фотопапір', 'Офісний і поліграфічний папір', 'Плівки для ламінування', 'Ламінатори', 'Біндер для зшивання документів',
+        'Принтери етикеток, штрихкодів, чеків', 'Сканери штрихкодів', 'Канцелярський і пакувальний скотч', 'Файли і папки'
+    ],
+    'Догляд за технікою та інструменти': [
+        'Засоби для чистки цифрової техніки', 'Чистячі засоби для цифрової техніки', 'Термопрокладки й термопаста',
+        'Інструменти обжимні ручні', 'Набори інструментів', 'Електроінструмент', 'Дрилі, шуруповерти', 'Шліфувальні машини',
+        'Електролобзики', 'Паяльники', 'Фени технічні', 'Ручні дискові пили'
+    ],
+    'Інше': [
+        'Настільні ігри', 'Пазли і головоломки', 'Іграшки для малюків', 'Дерев’яні іграшки', 'Ляльки, пупси',
+        'Кухонний посуд', 'Каструлі', 'Сковорідки, сотейники, жаровні', 'Чайники', 'Кухонні дошки', 'Кухонні ножі і підставки',
+        'Тарілки і піали', 'Ополоники, шумівки', 'Ваги кухонні', 'Ваги підлогові', 'Електричні грілки',
+        'Охоронні системи та сигналізації', 'Радіоняні, відеоняні'
+    ]
+};
+
+// Обробка даних XML
+function processData(result) {
+    try {
+        const xmlCategories = result.yml_catalog.shop[0].categories[0].category;
+        const categoriesMap = {};
+        xmlCategories.forEach(cat => {
+            categoriesMap[cat.$.id] = {
+                name: cat._,
+                parentId: cat.$.parentId || null
+            };
+        });
+
+        const subCategoriesMap = {};
+        Object.keys(mainCategories).forEach(mainCat => {
+            subCategoriesMap[mainCat] = mainCategories[mainCat];
+        });
+
+        Object.values(categoriesMap).forEach(cat => {
+            let assigned = false;
+            for (const [mainCat, subCats] of Object.entries(mainCategories)) {
+                if (subCats.includes(cat.name)) {
+                    assigned = true;
+                    break;
+                }
+            }
+            if (!assigned && !subCategoriesMap['Інше'].includes(cat.name)) {
+                subCategoriesMap['Інше'].push(cat.name);
+            }
+        });
+
+        cachedProducts = result.yml_catalog.shop[0].offers[0].offer.map(item => {
+            const xmlCategoryId = item.categoryId[0];
+            const xmlCategory = categoriesMap[xmlCategoryId]?.name || 'Інше';
+            let mainCategory = 'Інше';
+            let subCategory = xmlCategory;
+
+            for (const [mainCat, subCats] of Object.entries(mainCategories)) {
+                if (subCats.includes(xmlCategory)) {
+                    mainCategory = mainCat;
+                    break;
+                }
+            }
+
+            const params = {};
+            if (item.param) {
+                item.param.forEach(p => {
+                    params[p.$.name] = p._;
+                });
+            }
+
+            const images = item.picture ? item.picture : [];
+
+            return {
+                id: item.$.id,
+                name: item.name[0],
+                price: parseFloat(item.price[0]).toFixed(2),
+                image: images[0] || '/images/no-image.jpg',
+                images: images,
+                category: mainCategory,
+                subCategory: subCategory,
+                description: item.description?.[0] || '',
+                available: item.$.available === 'true',
+                params: params,
+                vendor: item.vendor?.[0] || '',
+                vendorCode: item.vendorCode?.[0] || '',
+                views: 0,
+                createdAt: new Date().toISOString()
+            };
+        });
+
+        cachedCategories = Object.keys(mainCategories);
+        cachedSubCategories = subCategoriesMap;
+        lastUpdate = Date.now();
+
+        saveBackup();
+        console.log(`Оновлено: ${cachedProducts.length} товарів, ${cachedCategories.length} основних категорій`);
+    } catch (error) {
+        console.error('Помилка обробки даних:', error);
+        throw error;
+    }
+}
+
+async function saveBackup() {
+    const backupData = {
+        products: cachedProducts,
+        categories: cachedCategories,
+        subCategories: cachedSubCategories,
+        timestamp: lastUpdate
+    };
+
+    await fs.writeFile(
+        path.join(__dirname, 'data', 'last-products.json'),
+        JSON.stringify(backupData, null, 2),
+        'utf-8'
+    );
+}
+
+async function loadProducts() {
+    try {
+        console.log(`Спробую завантажити XML з ${XML_URL}...`);
+        const response = await axios.get(XML_URL, {
+            timeout: 10000,
+            headers: { 'User-Agent': 'MyShop/1.0' }
+        });
+        const result = await xml2js.parseStringPromise(response.data);
+        processData(result);
+    } catch (error) {
+        console.error('Помилка завантаження XML:', error.message);
+        await loadLocalBackup();
+    }
+}
+
+async function loadLocalBackup() {
+    try {
+        const backupPath = path.join(__dirname, 'data', 'last-products.json');
+        if (!existsSync(backupPath)) {
+            console.log('Резервний файл не знайдено, спробую локальний XML...');
+            await loadLocalXML();
+            return;
+        }
+
+        const data = await fs.readFile(backupPath, 'utf-8');
+        const backup = JSON.parse(data);
+
+        cachedProducts = backup.products || [];
+        cachedCategories = backup.categories || [];
+        cachedSubCategories = backup.subCategories || {};
+        lastUpdate = backup.timestamp || Date.now();
+
+        console.log(`Використано резервні дані (${cachedProducts.length} товарів, ${cachedCategories.length} категорій)`);
+    } catch (e) {
+        console.error('Помилка резерву:', e.message);
+        await loadLocalXML();
+    }
+}
+
+async function loadLocalXML() {
+    try {
+        const xmlPath = path.join(__dirname, 'data', 'products.xml');
+        if (!existsSync(xmlPath)) {
+            throw new Error('Локальний XML файл не знайдено');
+        }
+
+        const data = await fs.readFile(xmlPath, 'utf-8');
+        const result = await xml2js.parseStringPromise(data);
+        processData(result);
+        console.log('Використано локальний XML файл');
+    } catch (error) {
+        console.error('Помилка локального XML:', error.message);
+        await createEmptyBackup();
+    }
+}
+
+async function createEmptyBackup() {
+    cachedProducts = [];
+    cachedCategories = [];
+    cachedSubCategories = {};
+    lastUpdate = Date.now();
+
+    await saveBackup();
+    console.log('Створено порожній резервний файл');
+}
+
+// API
+app.get('/api/products', async (req, res) => {
+    try {
+        const { category, subCategory, search, sort, priceMin, priceMax, available, limit } = req.query;
+        let filteredProducts = cachedProducts;
+
+        if (category) {
+            filteredProducts = filteredProducts.filter(p => p.category === category);
+        }
+
+        if (subCategory) {
+            filteredProducts = filteredProducts.filter(p => p.subCategory === subCategory);
+        }
+
+        if (search) {
+            filteredProducts = filteredProducts.filter(p =>
+                p.name.toLowerCase().includes(search.toLowerCase())
+            );
+        }
+
+        if (priceMin) {
+            filteredProducts = filteredProducts.filter(p => parseFloat(p.price) >= parseFloat(priceMin));
+        }
+
+        if (priceMax) {
+            filteredProducts = filteredProducts.filter(p => parseFloat(p.price) <= parseFloat(priceMax));
+        }
+
+        if (available === 'true') {
+            filteredProducts = filteredProducts.filter(p => p.available);
+        }
+
+        if (sort) {
+            switch (sort) {
+                case 'price-asc':
+                    filteredProducts = filteredProducts.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+                    break;
+                case 'price-desc':
+                    filteredProducts = filteredProducts.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+                    break;
+                case 'popularity':
+                    filteredProducts = filteredProducts.sort((a, b) => (b.views || 0) - (a.views || 0));
+                    break;
+                case 'new':
+                    filteredProducts = filteredProducts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if (limit) {
+            filteredProducts = filteredProducts.slice(0, parseInt(limit));
+        }
+
+        res.json({
+            success: true,
+            products: filteredProducts,
+            lastUpdate: new Date(lastUpdate).toISOString(),
+            count: filteredProducts.length
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+app.get('/api/popular', async (req, res) => {
+    try {
+        const limit = parseInt(req.query.limit) || 12;
+        const popularProducts = cachedProducts
+            .sort((a, b) => (b.views || 0) - (a.views || 0))
+            .slice(0, limit);
+        res.json({
+            success: true,
+            products: popularProducts,
+            count: popularProducts.length
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+app.post('/api/view', async (req, res) => {
+    try {
+        const { productId } = req.body;
+        const product = cachedProducts.find(p => p.id === productId);
+        if (product) {
+            product.views = (product.views || 0) + 1;
+            await saveBackup();
+            res.json({ success: true });
+        } else {
+            res.status(404).json({ success: false, error: 'Товар не знайдено' });
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+app.get('/api/categories', async (req, res) => {
+    res.json({
+        success: true,
+        categories: cachedCategories,
+        subCategories: cachedSubCategories
+    });
+});
+
+app.post('/api/contact', async (req, res) => {
+    try {
+        const { name, email, message } = req.body;
+        if (!name || !email || !message) {
+            return res.status(400).json({ success: false, error: 'Усі поля обов’язкові' });
+        }
+
+        console.log('Отримано повідомлення:', { name, email, message });
+        res.json({ success: true, message: 'Повідомлення надіслано' });
+    } catch (error) {
+        res.status(500).json({ success: false, error: 'Помилка надсилання повідомлення' });
+    }
+});
+
+// Сторінки
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.get('/cart', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'cart.html'));
+});
+
+app.get('/product/:id', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'product.html'));
+});
+
+app.get('/categories', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'categories.html'));
+});
+
+app.get('/category/:categoryName', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'category.html'));
+});
+
+app.get('/subcategory/:subCategoryName', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'category.html'));
+});
+
+app.get('/search/:query', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'search.html'));
+});
+
+app.get('/contacts', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'contacts.html'));
+});
+
+app.get('/map', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'map.html'));
+});
+
+app.get('/warranty', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'warranty.html'));
+});
+
+// Запуск сервера
+async function startServer() {
+    await loadProducts();
+
+    cron.schedule('*/30 * * * *', () => {
+        console.log('\n--- Заплановане оновлення ---');
+        loadProducts();
+    });
+
+    app.listen(PORT, () => {
+        console.log(`
+            🚀 Сервер запущено: http://localhost:${PORT}
+            ⏱ Останнє оновлення: ${new Date(lastUpdate).toLocaleString()}
+            📦 Товарів: ${cachedProducts.length}
+            🗂 Основних категорій: ${cachedCategories.length}
+        `);
+    });
+}
+
+startServer().catch(error => {
+    console.error('Помилка запуску сервера:', error);
+    process.exit(1);
+});
