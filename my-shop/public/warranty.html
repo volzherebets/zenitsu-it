@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Гарантія | TEST IT</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Навігація -->
+    <nav>
+        <div class="container">
+            <a href="/" class="logo">
+                <img src="/images/logo.png" alt="TEST IT Logo">
+                <span>TEST IT</span>
+            </a>
+            <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+            <div class="menu">
+                <a href="/">Головна</a>
+                <a href="/contacts">Контакти</a>
+                <a href="/map">Знайти нас</a>
+                <a href="/warranty">Гарантія</a>
+                <a href="/cart" class="cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Гарантія -->
+    <div class="container">
+        <h1 class="text-2xl font-bold mb-6">Гарантія</h1>
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold mb-4">Умови гарантії</h2>
+            <p class="text-gray-600 mb-4">
+                Ми надаємо гарантію на всі товари, придбані в нашому магазині. Термін гарантії залежить від типу товару і становить від 6 до 24 місяців.
+            </p>
+            <p class="text-gray-600 mb-4">
+                Для отримання гарантійного обслуговування, будь ласка, зв’яжіться з нами через форму на сторінці контактів або за телефоном.
+            </p>
+            <a href="/contacts" class="primary inline-block">Зв’язатися з нами</a>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <footer>
+        <div class="container">
+            <div>
+                <h3>TEST IT</h3>
+                <p>Ваш надійний магазин техніки та електроніки.</p>
+            </div>
+            <div>
+                <h3>Навігація</h3>
+                <ul>
+                    <li><a href="/">Головна</a></li>
+                    <li><a href="/contacts">Контакти</a></li>
+                    <li><a href="/map">Знайти нас</a></li>
+                    <li><a href="/warranty">Гарантія</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Контакти</h3>
+                <p>Email: support@testit.ua</p>
+                <p>Телефон: +380 123 456 789</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Сповіщення -->
+    <div id="notification" class="fixed bottom-4 right-4 hidden"></div>
+
+    <script>
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        document.getElementById('cart-count').textContent = cart.length;
+
+        document.querySelector('.menu-toggle').addEventListener('click', () => {
+            document.querySelector('.menu').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

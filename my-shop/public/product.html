@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechTrend | Товар</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            z-index: 10;
+        }
+        .thumbnail {
+            transition: border-color 0.3s ease;
+        }
+        .thumbnail:hover, .thumbnail.active {
+            border-color: #3b82f6 !important;
+        }
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: none;
+            }
+            .mobile-menu.active {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Header -->
+    <header class="header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+            <a href="/" class="flex items-center">
+                <img src="/images/logo.png" alt="TechTrend" class="h-10 w-auto">
+                <span class="ml-2 text-xl font-bold text-gray-800">TechTrend</span>
+            </a>
+            <div class="flex-1 mx-4 relative hidden md:block">
+                <input id="search-input" type="text" placeholder="Пошук товарів..." 
+                       class="w-full p-2 pl-10 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                <div id="search-results" class="dropdown-menu w-full mt-1 max-h-64 overflow-y-auto"></div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative dropdown hidden md:block">
+                    <button class="text-gray-600 hover:text-blue-600 flex items-center">
+                        <i class="fas fa-bars mr-1"></i> Категорії
+                    </button>
+                    <div id="categories-dropdown" class="dropdown-menu w-64 p-4"></div>
+                </div>
+                <a href="/cart" class="relative text-gray-600 hover:text-blue-600">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full px-2">0</span>
+                </a>
+                <button id="burger-menu" class="md:hidden text-gray-600 hover:text-blue-600">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="mobile-menu md:hidden bg-white shadow-md p-4">
+            <div class="relative mb-4">
+                <input id="mobile-search-input" type="text" placeholder="Пошук товарів..." 
+                       class="w-full p-2 pl-10 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                <div id="mobile-search-results" class="dropdown-menu w-full mt-1 max-h-64 overflow-y-auto"></div>
+            </div>
+            <div id="mobile-categories" class="space-y-2"></div>
+        </div>
+    </header>
+
+    <!-- Деталі товару -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="bg-white rounded-lg shadow-sm p-6 flex flex-col lg:flex-row gap-6">
+            <!-- Зображення -->
+            <div class="w-full lg:w-1/2">
+                <img id="product-image" src="/images/no-image.jpg" alt="Товар" class="w-full h-96 object-contain rounded-lg mb-4">
+                <div id="image-thumbnails" class="flex gap-2 overflow-x-auto"></div>
+            </div>
+            <!-- Інформація -->
+            <div class="w-full lg:w-1/2">
+                <h1 id="product-name" class="text-3xl font-bold text-gray-800 mb-2"></h1>
+                <p id="product-price" class="text-blue-600 font-bold text-2xl mb-2"></p>
+                <p id="product-availability" class="text-sm mb-4"></p>
+                <p id="product-vendor" class="text-gray-600 mb-2"></p>
+                <p id="product-vendor-code" class="text-gray-600 mb-4"></p>
+                <button id="add-to-cart" class="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 mb-4">
+                    Додати в кошик
+                </button>
+                <div class="border-t pt-4">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-2">Характеристики</h2>
+                    <div id="product-params" class="text-gray-600"></div>
+                </div>
+                <div class="mt-4">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-2">Опис</h2>
+                    <div id="product-description" class="text-gray-600"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold">TechTrend</h3>
+                    <p class="mt-2 text-gray-400">Інновації для твого життя.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold">Навігація</h3>
+                    <ul class="mt-2 space-y-2">
+                        <li><a href="/categories" class="text-gray-400 hover:text-orange-500">Категорії</a></li>
+                        <li><a href="/contacts" class="text-gray-400 hover:text-orange-500">Контакти</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold">Контакти</h3>
+                    <p class="mt-2 text-gray-400">Email: support@techtrend.ua</p>
+                    <p class="text-gray-400">Телефон: +380 123 456 789</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Сповіщення -->
+    <div id="notification" class="fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg hidden"></div>
+
+    <script src="/script-product.js"></script>
+</body>
+</html>

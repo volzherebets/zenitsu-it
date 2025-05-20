@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакти | TEST IT</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Навігація -->
+    <nav>
+        <div class="container">
+            <a href="/" class="logo">
+                <img src="/images/logo.png" alt="TEST IT Logo">
+                <span>TEST IT</span>
+            </a>
+            <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+            <div class="menu">
+                <a href="/">Головна</a>
+                <a href="/contacts">Контакти</a>
+                <a href="/map">Знайти нас</a>
+                <a href="/warranty">Гарантія</a>
+                <a href="/cart" class="cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Контакти -->
+    <div class="container">
+        <h1 class="text-2xl font-bold mb-6">Контакти</h1>
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h2 class="text-xl font-semibold mb-4">Зв’яжіться з нами</h2>
+                    <p class="text-gray-600">Email: <a href="mailto:support@testit.ua">support@testit.ua</a></p>
+                    <p class="text-gray-600">Телефон: <a href="tel:+380123456789">+380 123 456 789</a></p>
+                    <p class="text-gray-600">Адреса: вул. Технічна, 123, Київ, Україна</p>
+                </div>
+                <div>
+                    <h2 class="text-xl font-semibold mb-4">Надіслати повідомлення</h2>
+                    <form id="contact-form" class="space-y-4">
+                        <div>
+                            <label for="name" class="block font-semibold">Ім’я</label>
+                            <input type="text" id="name" class="w-full p-2 border rounded-lg bg-[#E1E6C6]" required>
+                        </div>
+                        <div>
+                            <label for="email" class="block font-semibold">Email</label>
+                            <input type="email" id="email" class="w-full p-2 border rounded-lg bg-[#E1E6C6]" required>
+                        </div>
+                        <div>
+                            <label for="message" class="block font-semibold">Повідомлення</label>
+                            <textarea id="message" class="w-full p-2 border rounded-lg bg-[#E1E6C6]" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="primary w-full">Надіслати</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <footer>
+        <div class="container">
+            <div>
+                <h3>TEST IT</h3>
+                <p>Ваш надійний магазин техніки та електроніки.</p>
+            </div>
+            <div>
+                <h3>Навігація</h3>
+                <ul>
+                    <li><a href="/">Головна</a></li>
+                    <li><a href="/contacts">Контакти</a></li>
+                    <li><a href="/map">Знайти нас</a></li>
+                    <li><a href="/warranty">Гарантія</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Контакти</h3>
+                <p>Email: support@testit.ua</p>
+                <p>Телефон: +380 123 456 789</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Сповіщення -->
+    <div id="notification" class="fixed bottom-4 right-4 hidden"></div>
+
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, message })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    document.getElementById('notification').textContent = 'Повідомлення надіслано!';
+                    document.getElementById('notification').classList.add('show');
+                    setTimeout(() => document.getElementById('notification').classList.remove('show'), 3000);
+                    document.getElementById('contact-form').reset();
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                document.getElementById('notification').textContent = 'Помилка надсилання';
+                document.getElementById('notification').classList.add('show');
+                setTimeout(() => document.getElementById('notification').classList.remove('show'), 3000);
+            }
+        });
+
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        document.getElementById('cart-count').textContent = cart.length;
+
+        document.querySelector('.menu-toggle').addEventListener('click', () => {
+            document.querySelector('.menu').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

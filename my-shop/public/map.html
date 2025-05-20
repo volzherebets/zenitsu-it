@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Знайти нас | TEST IT</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Навігація -->
+    <nav>
+        <div class="container">
+            <a href="/" class="logo">
+                <img src="/images/logo.png" alt="TEST IT Logo">
+                <span>TEST IT</span>
+            </a>
+            <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+            <div class="menu">
+                <a href="/">Головна</a>
+                <a href="/contacts">Контакти</a>
+                <a href="/map">Знайти нас</a>
+                <a href="/warranty">Гарантія</a>
+                <a href="/cart" class="cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Карта -->
+    <div class="container">
+        <h1 class="text-2xl font-bold mb-6">Знайти нас на карті</h1>
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2540.6512971378227!2d30.52375961573096!3d50.44758297947548!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d4ce56b9c6b7b7%3A0x8e6b4b6b7b6b7b6b!2sKyiv%2C%20Ukraine!5e0!3m2!1sen!2sua!4v1634567891234!5m2!1sen!2sua" 
+                    width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <footer>
+        <div class="container">
+            <div>
+                <h3>TEST IT</h3>
+                <p>Ваш надійний магазин техніки та електроніки.</p>
+            </div>
+            <div>
+                <h3>Навігація</h3>
+                <ul>
+                    <li><a href="/">Головна</a></li>
+                    <li><a href="/contacts">Контакти</a></li>
+                    <li><a href="/map">Знайти нас</a></li>
+                    <li><a href="/warranty">Гарантія</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Контакти</h3>
+                <p>Email: support@testit.ua</p>
+                <p>Телефон: +380 123 456 789</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Сповіщення -->
+    <div id="notification" class="fixed bottom-4 right-4 hidden"></div>
+
+    <script>
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        document.getElementById('cart-count').textContent = cart.length;
+
+        document.querySelector('.menu-toggle').addEventListener('click', () => {
+            document.querySelector('.menu').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

@@ -3,86 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TEST IT - Інтернет магазин</title>
+    <title>TechTrend | Головна</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/style.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            z-index: 10;
+        }
+        .category-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: none;
+            }
+            .mobile-menu.active {
+                display: block;
+            }
+        }
+    </style>
 </head>
-<body>
+<body class="bg-gray-100">
+    <!-- Header -->
     <header class="header">
-        <div class="container">
-            <div class="logo">
-                <img src="/images/logo.png" alt="TEST IT" class="logo-img">
-                <span class="logo-text">TEST IT</span>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+            <!-- Логотип -->
+            <a href="/" class="flex items-center">
+                <img src="/images/logo.png" alt="TechTrend" class="h-10 w-auto">
+                <span class="ml-2 text-xl font-bold text-gray-800">TechTrend</span>
+            </a>
+
+            <!-- Пошук -->
+            <div class="flex-1 mx-4 relative hidden md:block">
+                <input id="search-input" type="text" placeholder="Пошук товарів..." 
+                       class="w-full p-2 pl-10 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                <div id="search-results" class="dropdown-menu w-full mt-1 max-h-64 overflow-y-auto"></div>
             </div>
 
-            <div class="search">
-                <input type="text" placeholder="Пошук товарів..." id="search-input">
-                <button id="search-btn"><i class="fas fa-search"></i></button>
-            </div>
+            <!-- Навігація -->
+            <div class="flex items-center space-x-4">
+                <!-- Категорії (Dropdown) -->
+                <div class="relative dropdown hidden md:block">
+                    <button class="text-gray-600 hover:text-blue-600 flex items-center">
+                        <i class="fas fa-bars mr-1"></i> Категорії
+                    </button>
+                    <div id="categories-dropdown" class="dropdown-menu w-64 p-4"></div>
+                </div>
 
-            <div class="user-actions">
-                <a href="#" class="wishlist"><i class="far fa-heart"></i></a>
-                <a href="/cart" class="cart">
+                <a href="/cart" class="relative text-gray-600 hover:text-blue-600">
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count" id="cart-count">0</span>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full px-2">0</span>
                 </a>
+
+                <!-- Бургер-меню для мобільних -->
+                <button id="burger-menu" class="md:hidden text-gray-600 hover:text-blue-600">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
+        </div>
+
+        <!-- Мобільне меню -->
+        <div id="mobile-menu" class="mobile-menu md:hidden bg-white shadow-md p-4">
+            <div class="relative mb-4">
+                <input id="mobile-search-input" type="text" placeholder="Пошук товарів..." 
+                       class="w-full p-2 pl-10 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                <div id="mobile-search-results" class="dropdown-menu w-full mt-1 max-h-64 overflow-y-auto"></div>
+            </div>
+            <div id="mobile-categories" class="space-y-2"></div>
         </div>
     </header>
 
-    <nav class="navbar">
-        <div class="container">
-            <div class="categories-dropdown">
-                <button class="dropdown-btn">
-                    <i class="fas fa-bars"></i> Категорії
-                </button>
-                <div class="dropdown-content" id="categories-dropdown">
-                    </div>
-            </div>
-
-            <ul class="nav-links">
-                <li><a href="/">Головна</a></li>
-                <li><a href="#">Контакти</a></li>
-                <li><a href="#">Знайти нас на карті</a></li>
-                <li><a href="#">Гарантія</a></li>
-            </ul>
+    <!-- Банер -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg p-8 text-center">
+            <h1 class="text-3xl font-bold mb-2">TechTrend – Твій магазин техніки!</h1>
+            <p class="text-lg">Найкращі гаджети та аксесуари за доступними цінами.</p>
+            <a href="/categories" class="mt-4 inline-block bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600">
+                Переглянути категорії
+            </a>
         </div>
-    </nav>
+    </section>
 
-    <main class="main">
-        <div class="container">
-            <div class="products-grid" id="products">
+    <!-- Категорії -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Популярні категорії</h2>
+        <div id="categories-section" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4"></div>
+    </section>
+
+    <!-- Популярні товари -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Популярні товари</h2>
+        <div id="popular-products" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4"></div>
+    </section>
+
+    <!-- Новинки -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Новинки</h2>
+        <div id="new-products" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold">TechTrend</h3>
+                    <p class="mt-2 text-gray-400">Інновації для твого життя.</p>
                 </div>
-        </div>
-    </main>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-section">
-                <h3>Контакти</h3>
-                <p>+380 12 345 6789</p>
-                <p>info@testit.ua</p>
-            </div>
-            <div class="footer-section">
-                <h3>Графік роботи</h3>
-                <p>Пн-Пт: 9:00-18:00</p>
-                <p>Сб-Нд: 10:00-15:00</p>
+                <div>
+                    <h3 class="text-lg font-bold">Навігація</h3>
+                    <ul class="mt-2 space-y-2">
+                        <li><a href="/categories" class="text-gray-400 hover:text-orange-500">Категорії</a></li>
+                        <li><a href="/contacts" class="text-gray-400 hover:text-orange-500">Контакти</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold">Контакти</h3>
+                    <p class="mt-2 text-gray-400">Email: support@techtrend.ua</p>
+                    <p class="text-gray-400">Телефон: +380 123 456 789</p>
+                </div>
             </div>
         </div>
     </footer>
 
-    <div id="notification" class="notification"></div>
+    <!-- Сповіщення -->
+    <div id="notification" class="fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg hidden"></div>
 
     <script src="/script.js"></script>
-
-    <script>
-  document.querySelectorAll('.main-category').forEach(category => {
-    category.addEventListener('click', () => {
-      const group = category.closest('.category-group');
-      group.classList.toggle('open');
-    });
-  });
-</script>
-
 </body>
 </html>
